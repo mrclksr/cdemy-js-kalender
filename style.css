@@ -1,0 +1,16 @@
+#today {
+    background-color: green;
+}
+
+#saturday {
+    background-color: blue;
+}
+
+#sunday {
+    background-color: red;
+}
+
+th, td {
+  width: 2em;
+  text-align: center;
+}
