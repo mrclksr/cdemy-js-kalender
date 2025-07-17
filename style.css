@@ -20,3 +20,23 @@ table.calendar th, td {
 table.calendar td:hover {
   background-color: yellow;
 }
+
+.column {
+  float: left;
+}
+
+.left {
+  width: 15%;
+}
+
+.right {
+  width: 85%;
+}
+
+.row {
+  display: flex;
+}
+
+.center {
+  text-align: center;
+}
