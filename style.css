@@ -2,15 +2,21 @@
     background-color: green;
 }
 
-#saturday {
+.saturday {
     background-color: blue;
 }
 
-#sunday {
+.sunday {
     background-color: red;
 }
 
-th, td {
+table.calendar th, td {
   width: 2em;
   text-align: center;
+  border: 1px solid;
+  border-collapse: collapse;
+}
+
+table.calendar td:hover {
+  background-color: yellow;
 }
