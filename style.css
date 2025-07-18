@@ -21,22 +21,18 @@ table.calendar td:hover {
   background-color: yellow;
 }
 
-.column {
-  float: left;
-}
-
-.left {
-  width: 15%;
-}
-
-.right {
-  width: 85%;
-}
-
-.row {
-  display: flex;
-}
-
 .center {
   text-align: center;
 }
+
+.calendar_box {
+  float: left;
+  width: 25%;
+  padding-right: 50px;
+}
+
+.text_box {
+  float: right;
+  width: 75%;
+}
+
