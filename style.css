@@ -10,6 +10,10 @@
     background-color: red;
 }
 
+.text_box ul {
+    padding-left: 0;
+}
+
 table.calendar th, td {
   width: 2em;
   text-align: center;
@@ -27,8 +31,9 @@ table.calendar td:hover {
 
 .calendar_box {
   float: left;
-  width: 25%;
-  padding-right: 50px;
+  width: 23%;
+  /*padding-right: 1em;*/
+  margin-right: 1em;
 }
 
 .text_box {
