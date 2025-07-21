@@ -29,15 +29,23 @@ table.calendar td:hover {
   text-align: center;
 }
 
-.calendar_box {
-  float: left;
-  width: 23%;
-  /*padding-right: 1em;*/
-  margin-right: 1em;
+.container {
+  display: grid;
+  grid-template-columns: auto auto;
+  background-color: dodgerblue;
+  padding: 0px;
 }
 
-.text_box {
-  float: right;
-  width: 75%;
+.container > div {
+  background-color: #f1f1f1;
+  border: 1px solid black;
+  padding: 5px;
 }
+
+.calendar-container {
+  margin: auto;
+  width: 90%;
+}
+
+
 
