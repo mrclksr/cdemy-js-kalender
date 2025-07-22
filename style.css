@@ -1,21 +1,29 @@
 #today {
-    background-color: green;
+  background-color: green;
+  font-weight: bold;
 }
 
 .saturday {
-    background-color: blue;
+  background-color: blue;
 }
 
 .sunday {
-    background-color: red;
+  background-color: red;
 }
 
 .text_box ul {
-    padding-left: 0;
+  padding-left: 0;
 }
 
-table.calendar th, td {
+table.calendar {
+  width: 100%;
+  margin: auto
+}
+
+table.calendar th,
+td {
   width: 2em;
+  max-width: 2em;
   text-align: center;
   border: 1px solid;
   border-collapse: collapse;
@@ -23,6 +31,7 @@ table.calendar th, td {
 
 table.calendar td:hover {
   background-color: yellow;
+  font-style: bold;
 }
 
 .center {
@@ -32,20 +41,28 @@ table.calendar td:hover {
 .container {
   display: grid;
   grid-template-columns: auto auto;
-  background-color: dodgerblue;
   padding: 0px;
 }
 
-.container > div {
-  background-color: #f1f1f1;
-  border: 1px solid black;
+.container>div {
+  border: none;
   padding: 5px;
 }
 
 .calendar-container {
   margin: auto;
   width: 90%;
+  background-color: rgb(104, 102, 102);
 }
 
+body {
+  background-color: grey;
+  font-family: Arial, sans-serif;
+}
 
-
+#calendar_header {
+  text-align: center;
+  font-size: 2em;
+  margin-top: 20px;
+  background-color: lightpink;
+}
