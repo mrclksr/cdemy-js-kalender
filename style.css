@@ -24,20 +24,19 @@ table.calendar .sunday {
 
 table.calendar {
   width: 100%;
-  margin: auto
+  margin: auto;
 }
 
 table.calendar th,
 td {
   width: 2.5em;
-  max-width: 2.5em;
-  min-width: 2.5em;
   height: 2.5em;
   text-align: center;
   /*border: 1px solid;*/
   border-collapse: collapse;
   border-radius: 15px;
-  color: white
+  color: white;
+  overflow: hidden;
 }
 
 table.calendar td {
@@ -59,7 +58,7 @@ table.calendar td:hover {
 
 .container {
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: 1fr 4fr;
   padding: 0px;
 }
 
@@ -71,5 +70,6 @@ table.calendar td:hover {
 .calendar_container {
   margin: auto;
   width: 90%;
+  height: 100%;
   /* background-color: rgb(104, 102, 102);*/
 }
