@@ -6,16 +6,16 @@ body {
 }
 
 #today {
-  background-color: green;
+  background-color: #433a4d;
   font-weight: bold;
 }
 
 table.calendar .saturday {
-  background-color: blue;
+  background-color: #97547d;
 }
 
 table.calendar .sunday {
-  background-color: red;
+  background-color: #da3057;
 }
 
 .text_box ul {
@@ -31,17 +31,18 @@ table.calendar th,
 td {
   width: 2.5em;
   max-width: 2.5em;
+  min-width: 2.5em;
   height: 2.5em;
   text-align: center;
   /*border: 1px solid;*/
   border-collapse: collapse;
   border-radius: 15px;
+  color: white
 }
 
 table.calendar td {
   background-color: rgb(229, 229, 241, 0.5);
 }
-
 
 table.calendar td:empty {
   pointer-events: none;
