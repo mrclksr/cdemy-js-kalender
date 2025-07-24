@@ -107,7 +107,7 @@ table.calendar td:hover {
   margin: 0 0 0 0;
 }
 
-#history_box p {
+#history_box_head {
   background-color: #97547d;
   color: white;
   text-align: center;
@@ -115,6 +115,7 @@ table.calendar td:hover {
   margin: 0px;
   border-width: 0px;
   border-radius: 15px 15px 0 0;
+  padding: 0.5em;
 }
 
 #description {
