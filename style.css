@@ -21,7 +21,10 @@ table.calendar .sunday {
 
 table.calendar {
   width: 100%;
-  margin: auto;
+  margin-top: 0;
+  margin-left: 0;
+  margin-right: 0;
+  margin-bottom: auto;
   border-spacing: 4px;
 }
 
@@ -86,7 +89,6 @@ table.calendar td:hover {
   border-radius: 20px;
   border-color: #97547d;
   margin: auto;
-  
 }
 
 #history_box ul {
@@ -97,10 +99,19 @@ table.calendar td:hover {
   padding-bottom: 1.5em;
 }
 
-#history_box h2 {
+#history_box li {
+  margin: 0 0 0.5em 0;
+}
+
+#history_box li:last-child {
+  margin: 0 0 0 0;
+}
+
+#history_box p {
   background-color: #97547d;
   color: white;
   text-align: center;
+  font-weight: bold;
   margin: 0px;
   border-width: 0px;
   border-radius: 15px 15px 0 0;
