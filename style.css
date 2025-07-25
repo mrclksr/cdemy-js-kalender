@@ -2,8 +2,8 @@
   --primary-color: #97547d;
   --secondary-color: #da3057;
   --background-color: #3e2d40;
-  --background-color-today: #433a4d;
-  --calendar-color-inactive:  rgb(135, 134, 134);
+  --background-color-selected:#433a4d;
+  --calendar-color-inactive: rgb(135, 134, 134);
   --calendar-background-color-inactive: rgba(229, 229, 241, 0.3);
   --text-color: white;
   --date-number-color: black;
@@ -61,19 +61,14 @@ table#calendar {
 }
 
 #calendar td#today {
-  background-color: var(--background-color-today);
   font-weight: bold;
-  color: white;
-  border-style: solid;
-  border-color: var(--secondary-color);
+  outline: 5px solid var(--secondary-color);
 }
 
 #calendar td#selected {
-  background-color: var(--background-color-today);
+  background-color: var(--background-color-selected);
   color: white;
   font-weight: bold;
-  border-style: solid;
-  border-color: white;
 }
 
 #calendar .saturday {
