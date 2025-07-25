@@ -5,23 +5,7 @@ body {
   font-family: Arial, sans-serif;
 }
 
-td#today {
-  background-color: #433a4d;
-  font-weight: bold;
-  color: white;
-  border-style: solid;
-  border-color: #da3057;
-}
-
-table.calendar .saturday {
-  background-color: #97547d;
-}
-
-table.calendar .sunday {
-  background-color: #da3057;
-}
-
-table.calendar {
+table#calendar {
   width: 100%;
   margin-top: 0;
   margin-left: 0;
@@ -30,7 +14,23 @@ table.calendar {
   border-spacing: 4px;
 }
 
-table.calendar th,
+table#calendar td#today {
+  background-color: #433a4d;
+  font-weight: bold;
+  color: white;
+  border-style: solid;
+  border-color: #da3057;
+}
+
+table#calendar .saturday {
+  background-color: #97547d;
+}
+
+table#calendar .sunday {
+  background-color: #da3057;
+}
+
+table#calendar th,
 td {
   width: 2.5em;
   height: 2.5em;
@@ -41,18 +41,18 @@ td {
   color: white;
 }
 
-table.calendar td {
+table#calendar td {
   color: black;
   font-weight: bold;
   background-color: rgb(229, 229, 241, 0.5);
 }
 
-table.calendar td:empty {
+table#calendar td:empty {
   pointer-events: none;
   background-color: transparent;
 }
 
-table.calendar td:hover {
+table#calendar td:hover {
   background-color: rgba(255, 255, 255, 0.65);
   font-style: bold;
 }
