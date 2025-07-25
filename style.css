@@ -9,6 +9,8 @@ td#today {
   background-color: #433a4d;
   font-weight: bold;
   color: white;
+  border-style: solid;
+  border-color: #da3057;
 }
 
 table.calendar .saturday {
