@@ -1,7 +1,18 @@
+:root {
+  --primary-color: #97547d;
+  --secondary-color: #da3057;
+  --background-color: #3e2d40;
+  --background-color-today: #433a4d;
+  --text-color: white;
+  --date-number-color: black;
+  --calendar-background-color: rgb(229, 229, 241, 0.5);
+  --hover-background-color: rgba(255, 255, 255, 0.65);
+}
+
 body {
   margin: auto;
-  background-color: #3e2d40;
-  color: rgb(199, 193, 193);
+  background-color: var(--background-color);
+  color: var(--text-color);
   font-family: Arial, sans-serif;
 }
 
@@ -15,26 +26,26 @@ table#calendar {
 }
 
 table#calendar th#calendar_head {
-  background-color: #97547d;
+  background-color: var(--primary-color);
   color: white;
   font-weight: bold;
   text-align: center;
 }
 
 table#calendar td#today {
-  background-color: #433a4d;
+  background-color: var(--background-color-today);
   font-weight: bold;
   color: white;
   border-style: solid;
-  border-color: #da3057;
+  border-color: var(--secondary-color);
 }
 
 table#calendar .saturday {
-  background-color: #97547d;
+  background-color: var(--primary-color);
 }
 
 table#calendar .sunday {
-  background-color: #da3057;
+  background-color: var(--secondary-color);
 }
 
 table#calendar th,
@@ -51,7 +62,7 @@ td {
 table#calendar td {
   color: black;
   font-weight: bold;
-  background-color: rgb(229, 229, 241, 0.5);
+  background-color: var(--calendar-background-color);
 }
 
 table#calendar td:empty {
@@ -60,7 +71,7 @@ table#calendar td:empty {
 }
 
 table#calendar td:hover {
-  background-color: rgba(255, 255, 255, 0.65);
+  background-color: var(--hover-background-color);
   font-style: bold;
 }
 
@@ -68,7 +79,7 @@ table#calendar td:hover {
   text-align: center;
 }
 
-div#grid_container {
+#grid_container {
   display: grid;
   grid-template-columns: 2fr 3fr;
   padding: 0px;
@@ -89,7 +100,7 @@ div#grid_container {
 }
 
 #history_box_head {
-  background-color: #97547d;
+  background-color: var(--primary-color);
   color: white;
   text-align: center;
   font-weight: bold;
@@ -103,7 +114,7 @@ div#grid_container {
   width: 100%;
   border-style: solid;
   border-radius: 20px;
-  border-color: #97547d;
+  border-color: var(--primary-color);
   margin: auto;
 }
 
