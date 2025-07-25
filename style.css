@@ -3,6 +3,8 @@
   --secondary-color: #da3057;
   --background-color: #3e2d40;
   --background-color-today: #433a4d;
+  --calendar-color-inactive:  rgb(135, 134, 134);
+  --calendar-background-color-inactive: rgba(229, 229, 241, 0.3);
   --text-color: white;
   --date-number-color: black;
   --calendar-background-color: rgb(229, 229, 241, 0.5);
@@ -109,6 +111,11 @@ td {
   font-style: bold;
 }
 
+#calendar td.other_month {
+  background-color: var(--calendar-background-color-inactive);
+  color: var(--calendar-color-inactive);
+  pointer-events: none;
+}
 
 .center {
   text-align: center;
