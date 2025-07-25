@@ -25,14 +25,40 @@ table#calendar {
   border-spacing: 4px;
 }
 
-table#calendar th#calendar_head {
+#calendar_head {
+  width: 100%;
   background-color: var(--primary-color);
   color: white;
   font-weight: bold;
-  text-align: center;
+  height: 2.5em;
 }
 
-table#calendar td#today {
+#next_month_bt, #prev_month_bt {
+  background-color: transparent;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+#prev_month_bt_container {
+  display: inline-block;
+  margin-right: 5em;
+}
+
+#next_month_bt_container {
+  display: inline-block;
+  margin-left: 5em;
+}
+
+#calendar_head_month_year {
+  display: inline-block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#calendar td#today {
   background-color: var(--background-color-today);
   font-weight: bold;
   color: white;
@@ -40,15 +66,23 @@ table#calendar td#today {
   border-color: var(--secondary-color);
 }
 
-table#calendar .saturday {
+#calendar td#selected {
+  background-color: var(--background-color-today);
+  color: white;
+  font-weight: bold;
+  border-style: solid;
+  border-color: white;
+}
+
+#calendar .saturday {
   background-color: var(--primary-color);
 }
 
-table#calendar .sunday {
+#calendar .sunday {
   background-color: var(--secondary-color);
 }
 
-table#calendar th,
+#calendar th,
 td {
   width: 2.5em;
   height: 2.5em;
@@ -59,21 +93,22 @@ td {
   color: white;
 }
 
-table#calendar td {
+#calendar td {
   color: black;
   font-weight: bold;
   background-color: var(--calendar-background-color);
 }
 
-table#calendar td:empty {
+#calendar td:empty {
   pointer-events: none;
   background-color: transparent;
 }
 
-table#calendar td:hover {
+#calendar td:hover {
   background-color: var(--hover-background-color);
   font-style: bold;
 }
+
 
 .center {
   text-align: center;
