@@ -1,3 +1,6 @@
+
+const germany = {};
+
 const Constants = {
     MILLISECONDS_PER_DAY: 24 * 60 * 60 * 1000,
 };
@@ -17,7 +20,7 @@ const Months = {
     DECEMBER: 11
 };
 
-const StateIds = {
+germany.StateIds = Object.freeze({
     BAVARIA: 0,
     BADEN_WUERTTEMBERG: 1,
     BERLIN: 2,
@@ -34,28 +37,28 @@ const StateIds = {
     SAXONY_ANHALT: 13,
     SCHLESWIG_HOLSTEIN: 14,
     THURINGIA: 15
-};
+});
 
-const States = [
-    { id: StateIds.BAVARIA, name: "Bavaria" },
-    { id: StateIds.BADEN_WUERTTEMBERG, name: "Baden-Württemberg" },
-    { id: StateIds.BERLIN, name: "Berlin" },
-    { id: StateIds.BRANDENBURG, name: "Brandenburg" },
-    { id: StateIds.BREMEN, name: "Bremen" },
-    { id: StateIds.HAMBURG, name: "Hamburg" },
-    { id: StateIds.HESSE, name: "Hesse" },
-    { id: StateIds.LOWER_SAXONY, name: "Lower Saxony" },
-    { id: StateIds.MECKLENBURG_WESTERN_POMERANIA, name: "Mecklenburg-Western Pomerania" },
-    { id: StateIds.NORTH_RHINE_WESTPHALIA, name: "North Rhine-Westphalia" },
-    { id: StateIds.RHINELAND_PALATINATE, name: "Rhineland-Palatinate" },
-    { id: StateIds.SAARLAND, name: "Saarland" },
-    { id: StateIds.SAXONY, name: "Saxony" },
-    { id: StateIds.SAXONY_ANHALT, name: "Saxony-Anhalt" },
-    { id: StateIds.SCHLESWIG_HOLSTEIN, name: "Schleswig-Holstein" },
-    { id: StateIds.THURINGIA, name: "Thuringia" }
-];
+germany.States = Object.freeze([
+    { id: germany.StateIds.BAVARIA, name: "Bavaria" },
+    { id: germany.StateIds.BADEN_WUERTTEMBERG, name: "Baden-Württemberg" },
+    { id: germany.StateIds.BERLIN, name: "Berlin" },
+    { id: germany.StateIds.BRANDENBURG, name: "Brandenburg" },
+    { id: germany.StateIds.BREMEN, name: "Bremen" },
+    { id: germany.StateIds.HAMBURG, name: "Hamburg" },
+    { id: germany.StateIds.HESSE, name: "Hesse" },
+    { id: germany.StateIds.LOWER_SAXONY, name: "Lower Saxony" },
+    { id: germany.StateIds.MECKLENBURG_WESTERN_POMERANIA, name: "Mecklenburg-Western Pomerania" },
+    { id: germany.StateIds.NORTH_RHINE_WESTPHALIA, name: "North Rhine-Westphalia" },
+    { id: germany.StateIds.RHINELAND_PALATINATE, name: "Rhineland-Palatinate" },
+    { id: germany.StateIds.SAARLAND, name: "Saarland" },
+    { id: germany.StateIds.SAXONY, name: "Saxony" },
+    { id: germany.StateIds.SAXONY_ANHALT, name: "Saxony-Anhalt" },
+    { id: germany.StateIds.SCHLESWIG_HOLSTEIN, name: "Schleswig-Holstein" },
+    { id: germany.StateIds.THURINGIA, name: "Thuringia" }
+]);
 
-const HolidayNames = {
+germany.HolidayNames = Object.freeze({
     NEW_YEAR: "New Year's Day",
     LABOR_DAY: "Labor Day",
     GERMAN_UNITY_DAY: "German Unity Day",
@@ -70,26 +73,158 @@ const HolidayNames = {
     GOOD_FRIDAY: "Good Friday",
     REFORMATION_DAY: "Reformation Day",
     REPUBLIC_DAY: "Republic Day",
-    WOMENS_DAY: "Women's Day"
-};
+    WOMENS_DAY: "Women's Day",
+    ASSUMPTION_DAY: "Assumption Day",
+    REPETANCE_AND_PRAYER_DAY: "Day of Repentance and Prayer"
+});
 
-const GeneralHolidays = [
-    { month: Months.JANUARY, day: 1, name: HolidayNames.NEW_YEAR },
-    { month: Months.APRIL, easterOffset: 0, name: HolidayNames.EASTER_SUNDAY },
-    { month: Months.APRIL, easterOffset: 1, name: HolidayNames.EASTER_MONDAY },
-    { month: Months.APRIL, easterOffset: -2, name: HolidayNames.GOOD_FRIDAY },
-    { month: Months.MAY, day: 1, name: HolidayNames.LABOR_DAY },
-    { month: Months.MAY, easterOffset: 39, name: HolidayNames.ASCENSION_DAY },
-    { month: Months.JUNE, easterOffset: 49, name: HolidayNames.WHIT_MONDAY },
-    { month: Months.OCTOBER, day: 3, name: HolidayNames.GERMAN_UNITY_DAY },
-    { month: Months.DECEMBER, day: 25, name: HolidayNames.CHRISTMAS_DAY },
-    { month: Months.DECEMBER, day: 26, name: HolidayNames.BOXING_DAY }
-];
+germany.GeneralHolidays = Object.freeze([
+    { month: Months.JANUARY, day: 1, name: germany.HolidayNames.NEW_YEAR },
+    { month: Months.APRIL, easterOffset: 0, name: germany.HolidayNames.EASTER_SUNDAY },
+    { month: Months.APRIL, easterOffset: 1, name: germany.HolidayNames.EASTER_MONDAY },
+    { month: Months.APRIL, easterOffset: -2, name: germany.HolidayNames.GOOD_FRIDAY },
+    { month: Months.MAY, day: 1, name: germany.HolidayNames.LABOR_DAY },
+    { month: Months.MAY, easterOffset: 39, name: germany.HolidayNames.ASCENSION_DAY },
+    { month: Months.JUNE, easterOffset: 49, name: germany.HolidayNames.WHIT_MONDAY },
+    { month: Months.OCTOBER, day: 3, name: germany.HolidayNames.GERMAN_UNITY_DAY },
+    { month: Months.DECEMBER, day: 25, name: germany.HolidayNames.CHRISTMAS_DAY },
+    { month: Months.DECEMBER, day: 26, name: germany.HolidayNames.BOXING_DAY }
+]);
 
+germany.StateHolidays = Object.freeze([
+    {
+        states: [
+            germany.StateIds.BAVARIA, germany.StateIds.BADEN_WUERTTEMBERG, germany.StateIds.NORTH_RHINE_WESTPHALIA,
+            germany.StateIds.RHINELAND_PALATINATE, germany.StateIds.SAARLAND
+        ],
+        holidays: [
+            { month: Months.NOVEMBER, day: 1, name: germany.HolidayNames.ALL_SAINTS_DAY }
+        ]
+    },
+    {
+        states: [
+            germany.StateIds.BAVARIA, germany.StateIds.BADEN_WUERTTEMBERG, germany.StateIds.SAXONY_ANHALT
+        ],
+        holidays: [
+            { month: Months.JANUARY, day: 6, name: germany.HolidayNames.EPIPHANY }
+        ]
+    },
+    {
+        states: [
+            germany.StateIds.BRANDENBURG, germany.StateIds.BREMEN, germany.StateIds.HAMBURG, germany.StateIds.LOWER_SAXONY,
+            germany.StateIds.MECKLENBURG_WESTERN_POMERANIA, germany.StateIds.SAXONY, germany.StateIds.SAXONY_ANHALT,
+            germany.StateIds.SCHLESWIG_HOLSTEIN, germany.StateIds.THURINGIA
+        ],
+        holidays: [
+            { month: Months.OCTOBER, day: 31, name: germany.HolidayNames.REFORMATION_DAY }
+        ]
+    },
+    {
+        states: [germany.StateIds.BERLIN],
+        holidays: [
+            { month: Months.MARCH, day: 8, name: germany.HolidayNames.WOMENS_DAY },
+        ]
+    },
+    {
+        states: [germany.StateIds.SAARLAND],
+        holidays: [
+            { month: Months.AUGUST, day: 15, name: germany.HolidayNames.ASSUMPTION_DAY }
+        ]
+    },
+    {
+        states: [germany.StateIds.SAXONY],
+        holidays: [
+            { month: Months.NOVEMBER, day: 21, name: germany.HolidayNames.REPETANCE_AND_PRAYER_DAY }
+        ]
+    }
+])
+
+class GermanHolidayCalculator {
+    constructor(year, stateId) {
+        if (!year) {
+            date = new Date();
+            year = new Date(date.getFullYear());
+        }
+        this.stateId = stateId || germany.StateIds.BAVARIA;
+        this.year = year;
+        this.easterSunday = this.calculateEasterSunday(year);
+        this.holidays = [];
+        this.calculateHolidays();
+    }
+
+    calculateHolidays() {
+        this.calculateGeneralHolidays();
+        this.calculateStateHolidays();
+    }
+
+    getHoliday(day) {
+        let rec = this.holidays.find(holiday => this.compareDays(holiday.date, day));
+        alert(rec.holiday);
+        return rec ? rec.holiday : "";
+    }
+
+    isHoliday(day) {
+        return this.holidays.some(holiday => this.compareDays(holiday, day));
+    }
+
+    calculateGeneralHolidays() {
+        for (const holiday of germany.GeneralHolidays) {
+            let date;
+            if (holiday.easterOffset !== undefined)
+                date = new Date(this.year, holiday.month, this.easterSunday.getDate() + holiday.easterOffset);
+            else
+                date = new Date(this.year, holiday.month, holiday.day);
+            const rec = { date: date, holiday: holiday.name };
+            this.holidays.push(rec);
+        }
+    }
+
+    calculateStateHolidays() {
+        germany.StateHolidays.forEach(entry => {
+            if (entry.states.includes(this.stateId)) {
+                for (const holiday of entry.holidays) {
+                    if (holiday.easterOffset !== undefined)
+                        date = new Date(this.year, holiday.month, this.easterSunday.getDate() + holiday.easterOffset);
+                    else
+                        date = new Date(this.year, holiday.month, holiday.day);
+                    const rec = { date: date, holiday: holiday.name };
+                    this.holidays.push(rec);
+                }
+            }
+        });
+    }
+
+    compareDays(day1, day2) {
+        return (day1.getDate() === day2.getDate() &&
+            day1.getMonth() === day2.getMonth() &&
+            day1.getFullYear() === day2.getFullYear()
+        );
+    }
+
+    calculateEasterSunday(year) {
+        const a = year % 19;
+        const b = Math.floor(year / 100);
+        const c = year % 100;
+        const d = Math.floor(b / 4);
+        const e = b % 4;
+        const f = Math.floor((b + 8) / 25);
+        const g = Math.floor((b - f + 1) / 16);
+        const h = (19 * a + b - d - g + 15) % 30;
+        const i = Math.floor(c / 16);
+        const j = (32 + 2 * e + 2 * i - h - c) % 7;
+        const k = Math.floor((a + 11 * h + 22 * j) / 451);
+        const month = Math.floor((h + j - k + 114) / 31);
+        const day = ((h + j - k + 114) % 31) + 1;
+
+        return new Date(year, month - 1, day);
+    }
+}
+
+/*
 const StateHolidays = [
     {
         stateId: StateIds.BAVARIA, holidays: [
-            { month: Months.JANUARY, day: 6, name: HolidayNames.EPIPHANY },
+            { month: Months.JANUARY, day: 6, name: germany.HolidayNames.EPIPHANY },
             { month: Months.NOVEMBER, day: 1, name: HolidayNames.ALL_SAINTS_DAY }
         ]
     },
@@ -168,81 +303,7 @@ const StateHolidays = [
         ]
     }
 ];
-
-class HolidayCalculator {
-    constructor(year, stateId) {
-        this.stateId = stateId || StateIds.BAVARIA;
-        this.year = year;
-        this.easterSunday = this.calculateEasterSunday(year);
-        this.holidays = [];
-        this.calculateHolidays();
-    }
-
-    getHoliday(day) {
-        return this.holidays.find(holiday =>
-            holiday.getDate() === day.getDate() &&
-            holiday.getMonth() === day.getMonth() &&
-            holiday.getFullYear() === day.getFullYear()
-        );
-    }
-
-    isHoliday(day) {
-        return this.holidays.some(holiday =>
-            holiday.getDate() === day.getDate() &&
-            holiday.getMonth() === day.getMonth() &&
-            holiday.getFullYear() === day.getFullYear()
-        );
-    }
-
-    calculateHolidays() {
-        for (const holiday of GeneralHolidays) {
-            let date;
-            if (holiday.easterOffset !== undefined)
-                date = new Date(this.year, holiday.month, this.easterSunday.getDate() + holiday.easterOffset);
-            else
-                date = new Date(this.year, holiday.month, holiday.day);
-            this.holidays.push(date);
-        }
-        const stateHolidays = StateHolidays.find(state => state.stateId === this.stateId);
-        if (stateHolidays) {
-            for (const holiday of stateHolidays.holidays)
-                this.holidays.push(new Date(this.year, holiday.month, holiday.day));
-        }
-    }
-
-    calculateEasterSunday(year) {
-        const a = year % 19;
-        const b = Math.floor(year / 100);
-        const c = year % 100;
-        const d = Math.floor(b / 4);
-        const e = b % 4;
-        const f = Math.floor((b + 8) / 25);
-        const g = Math.floor((b - f + 1) / 16);
-        const h = (19 * a + b - d - g + 15) % 30;
-        const i = Math.floor(c / 16);
-        const j = (32 + 2 * e + 2 * i - h - c) % 7;
-        const k = Math.floor((a + 11 * h + 22 * j) / 451);
-        const month = Math.floor((h + j - k + 114) / 31);
-        const day = ((h + j - k + 114) % 31) + 1;
-
-        return new Date(year, month - 1, day);
-    }
-}
-
-class Day {
-    // Pass a day as Date object to the constructor
-    constructor(date) {
-        this.date = date;
-        this.day = date.getDate();
-        this.isHoliday = false;
-        this.holidayName = "";
-    }
-
-    setHoliday(holidayName) {
-        this.isHoliday = true;
-        this.holidayName = holidayName;
-    }
-}
+*/
 
 class Month {
     constructor(month) {
@@ -265,6 +326,10 @@ class Calendar {
     constructor(month, holidayCalculator) {
         this.holidayCalculator = holidayCalculator;
         this.setMonth(month);
+    }
+
+    setHolidayCalculator(holidayCalculator) {
+        this.holidayCalculator = holidayCalculator;
     }
 
     setMonth(month) {
@@ -293,24 +358,29 @@ class Calendar {
     }
 
     isHoliday(day) {
+        if (!this.holidayCalculator)
+            return (false);
         return this.holidayCalculator.isHoliday(day);
     }
 
     getHolidayName(day) {
+        if (!this.holidayCalculator)
+            return ("");
         const holiday = this.holidayCalculator.getHoliday(day);
-        if (holiday) {
-            return holiday.name;
-        } else {
-            return "";
-        }
+        return (holiday ? holiday.name : "");
     }
 }
 
 function init() {
     const today = new Date();
-    setPageHeadingDate(date);
-    createCalendar(today);
+    const date = new Date(today.getFullYear(), Months.OCTOBER, 3);
+    holidayCalculator = new GermanHolidayCalculator(today.getUTCFullYear(), germany.StateIds.HESSE);
+    alert(holidayCalculator.getHoliday(date));
+    //    setPageHeadingDate(date);
+    //    createCalendar(today);
 }
+
+
 
 function setPageHeadingDate(date) {
     const selDate = document.getElementById("sel_date");
@@ -385,41 +455,6 @@ function setDayClass(cell, day) {
         cell.className = this.nextMonthDayClass;
 }
 
-function createCalendarRow(date, firstDay, lastDay, daysInMonth, firstWeekday, lastWeekday, todayDate, todayMonth, todayYear, selectedDateDay) {
-    function createCalendar(date) {
-        const calendar = document.getElementById("calendar");
-        const month = date.getMonth();
-        const year = date.getFullYear();
-        const firstDay = new Date(year, month, 1);
-        const lastDay = new Date(year, month + 1, 0);
-
-        const daysInMonth = lastDay.getDate();
-        const firstWeekday = firstDay.getDay();
-        const lastWeekday = lastDay.getDay();
-        const today = new Date();
-        const todayDate = today.getDate();
-        const todayMonth = today.getMonth();
-        const todayYear = today.getFullYear();
-        const selectedDate = new Date(year, month, 14); // Example selected date
-        const selectedDateDay = selectedDate.getDate();
-
-    }
-
-
-    function main() {
-        const today = new Date();
-        const selDate = document.getElementById("sel_date");
-        selDate.innerHTML = today.toLocaleDateString("de-DE", {
-            day: "2-digit",
-            month: "2-digit",
-            year: "numeric"
-        });
-    }
-
-    function selectDate(date) {
-    }
-
-
-    this.date = month;
-    this.month = new Month(month);
-    this.holidayCalculator = new HolidayCalculator(month.getFullYear());
+window.onload = function () {
+    init();
+};
