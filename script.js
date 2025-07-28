@@ -149,12 +149,12 @@ class GermanHolidayCalculator {
     this.year = year;
     this.easterSunday = this.calculateEasterSunday(year);
     this.holidays = [];
-    this.calculateHolidays();
+    this.addHolidays();
   }
 
-  calculateHolidays() {
-    this.calculateGeneralHolidays();
-    this.calculateStateHolidays();
+  addHolidays() {
+    this.addGeneralHolidays();
+    this.addStateHolidays();
   }
 
   getHoliday(day) {
@@ -166,12 +166,12 @@ class GermanHolidayCalculator {
     return (this.holidays.some(holiday => this.compareDays(holiday, day)));
   }
 
-  calculateGeneralHolidays() {
+  addGeneralHolidays() {
     for (const holiday of germany.GeneralHolidays)
       this.addHoliday(holiday);
   }
 
-  calculateStateHolidays() {
+  addStateHolidays() {
     germany.StateHolidays.forEach(entry => {
       if (entry.states.includes(this.stateId)) {
         for (const holiday of entry.holidays)
