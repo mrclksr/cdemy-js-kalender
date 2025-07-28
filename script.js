@@ -143,7 +143,7 @@ class GermanHolidayCalculator {
     constructor(year, stateId) {
         if (!year) {
             date = new Date();
-            year = new Date(date.getFullYear());
+            year = date.getFullYear();
         }
         this.stateId = stateId || germany.StateIds.BAVARIA;
         this.year = year;
@@ -159,21 +159,16 @@ class GermanHolidayCalculator {
 
     getHoliday(day) {
         let rec = this.holidays.find(holiday => this.compareDays(holiday.date, day));
-        alert(rec.holiday);
-        return rec ? rec.holiday : "";
+        return (rec ? rec.holiday : "");
     }
 
     isHoliday(day) {
-        return this.holidays.some(holiday => this.compareDays(holiday, day));
+        return (this.holidays.some(holiday => this.compareDays(holiday, day)));
     }
 
     calculateGeneralHolidays() {
         for (const holiday of germany.GeneralHolidays) {
-            let date;
-            if (holiday.easterOffset !== undefined)
-                date = new Date(this.year, holiday.month, this.easterSunday.getDate() + holiday.easterOffset);
-            else
-                date = new Date(this.year, holiday.month, holiday.day);
+            let date = this.calculateDate(holiday.month, holiday.day, holiday.easterOffset);
             const rec = { date: date, holiday: holiday.name };
             this.holidays.push(rec);
         }
@@ -183,15 +178,17 @@ class GermanHolidayCalculator {
         germany.StateHolidays.forEach(entry => {
             if (entry.states.includes(this.stateId)) {
                 for (const holiday of entry.holidays) {
-                    if (holiday.easterOffset !== undefined)
-                        date = new Date(this.year, holiday.month, this.easterSunday.getDate() + holiday.easterOffset);
-                    else
-                        date = new Date(this.year, holiday.month, holiday.day);
-                    const rec = { date: date, holiday: holiday.name };
+                    let date = this.calculateDate(holiday.month, holiday.day, holiday.easterOffset);
                     this.holidays.push(rec);
                 }
             }
         });
+    }
+
+    calculateDate(month, day, easterOffset) {
+        if (easterOffset !== undefined)
+            return (new Date(this.year, month, this.easterSunday.getDate() + easterOffset));
+        return (new Date(this.year, month, day));
     }
 
     compareDays(day1, day2) {
@@ -208,15 +205,16 @@ class GermanHolidayCalculator {
         const d = Math.floor(b / 4);
         const e = b % 4;
         const f = Math.floor((b + 8) / 25);
-        const g = Math.floor((b - f + 1) / 16);
+        const g = Math.floor((b - f + 1) / 3);
         const h = (19 * a + b - d - g + 15) % 30;
-        const i = Math.floor(c / 16);
-        const j = (32 + 2 * e + 2 * i - h - c) % 7;
-        const k = Math.floor((a + 11 * h + 22 * j) / 451);
-        const month = Math.floor((h + j - k + 114) / 31);
-        const day = ((h + j - k + 114) % 31) + 1;
+        const i = Math.floor(c / 4);
+        const k = c % 4;
+        const l = (32 + 2 * e + 2 * i - h - k) % 7;
+        const m = Math.floor((a + 11 * h + 22 * l) / 451);
+        const n = Math.floor((h + l - 7 * m + 114) / 31);
+        const o = (h + l - 7 * m + 114) % 31 + 1;
 
-        return new Date(year, month - 1, day);
+        return new Date(year, n - 1, o);
     }
 }
 
@@ -373,8 +371,8 @@ class Calendar {
 
 function init() {
     const today = new Date();
-    const date = new Date(today.getFullYear(), Months.OCTOBER, 3);
-    holidayCalculator = new GermanHolidayCalculator(today.getUTCFullYear(), germany.StateIds.HESSE);
+    const date = new Date(2025, Months.APRIL, 21);
+    holidayCalculator = new GermanHolidayCalculator(2025, germany.StateIds.HESSE);
     alert(holidayCalculator.getHoliday(date));
     //    setPageHeadingDate(date);
     //    createCalendar(today);
