@@ -1,4 +1,3 @@
-
 const germany = {};
 
 const Constants = {
@@ -17,7 +16,7 @@ const Months = {
   SEPTEMBER: 8,
   OCTOBER: 9,
   NOVEMBER: 10,
-  DECEMBER: 11
+  DECEMBER: 11,
 };
 
 germany.StateIds = Object.freeze({
@@ -36,7 +35,7 @@ germany.StateIds = Object.freeze({
   SAXONY: 12,
   SAXONY_ANHALT: 13,
   SCHLESWIG_HOLSTEIN: 14,
-  THURINGIA: 15
+  THURINGIA: 15,
 });
 
 germany.States = Object.freeze([
@@ -48,14 +47,20 @@ germany.States = Object.freeze([
   { id: germany.StateIds.HAMBURG, name: "Hamburg" },
   { id: germany.StateIds.HESSE, name: "Hesse" },
   { id: germany.StateIds.LOWER_SAXONY, name: "Lower Saxony" },
-  { id: germany.StateIds.MECKLENBURG_WESTERN_POMERANIA, name: "Mecklenburg-Western Pomerania" },
-  { id: germany.StateIds.NORTH_RHINE_WESTPHALIA, name: "North Rhine-Westphalia" },
+  {
+    id: germany.StateIds.MECKLENBURG_WESTERN_POMERANIA,
+    name: "Mecklenburg-Western Pomerania",
+  },
+  {
+    id: germany.StateIds.NORTH_RHINE_WESTPHALIA,
+    name: "North Rhine-Westphalia",
+  },
   { id: germany.StateIds.RHINELAND_PALATINATE, name: "Rhineland-Palatinate" },
   { id: germany.StateIds.SAARLAND, name: "Saarland" },
   { id: germany.StateIds.SAXONY, name: "Saxony" },
   { id: germany.StateIds.SAXONY_ANHALT, name: "Saxony-Anhalt" },
   { id: germany.StateIds.SCHLESWIG_HOLSTEIN, name: "Schleswig-Holstein" },
-  { id: germany.StateIds.THURINGIA, name: "Thuringia" }
+  { id: germany.StateIds.THURINGIA, name: "Thuringia" },
 ]);
 
 germany.HolidayNames = Object.freeze({
@@ -75,15 +80,27 @@ germany.HolidayNames = Object.freeze({
   REPUBLIC_DAY: "Republic Day",
   WOMENS_DAY: "Women's Day",
   ASSUMPTION_DAY: "Assumption Day",
-  REPETANCE_AND_PRAYER_DAY: "Day of Repentance and Prayer"
+  REPETANCE_AND_PRAYER_DAY: "Day of Repentance and Prayer",
 });
 
 germany.GeneralHolidays = Object.freeze([
   { month: Months.JANUARY, day: 1, name: germany.HolidayNames.NEW_YEAR },
   { month: Months.MAY, day: 1, name: germany.HolidayNames.LABOR_DAY },
-  { month: Months.MAY, easterOffset: 39, name: germany.HolidayNames.ASCENSION_DAY },
-  { month: Months.JUNE, easterOffset: 49, name: germany.HolidayNames.WHIT_MONDAY },
-  { month: Months.OCTOBER, day: 3, name: germany.HolidayNames.GERMAN_UNITY_DAY },
+  {
+    month: Months.MAY,
+    easterOffset: 39,
+    name: germany.HolidayNames.ASCENSION_DAY,
+  },
+  {
+    month: Months.JUNE,
+    easterOffset: 49,
+    name: germany.HolidayNames.WHIT_MONDAY,
+  },
+  {
+    month: Months.OCTOBER,
+    day: 3,
+    name: germany.HolidayNames.GERMAN_UNITY_DAY,
+  },
   { month: Months.DECEMBER, day: 25, name: germany.HolidayNames.CHRISTMAS_DAY },
   { month: Months.DECEMBER, day: 26, name: germany.HolidayNames.BOXING_DAY },
   { easterOffset: 0, name: germany.HolidayNames.EASTER_SUNDAY },
@@ -94,50 +111,76 @@ germany.GeneralHolidays = Object.freeze([
 germany.StateHolidays = Object.freeze([
   {
     states: [
-      germany.StateIds.BAVARIA, germany.StateIds.BADEN_WUERTTEMBERG, germany.StateIds.NORTH_RHINE_WESTPHALIA,
-      germany.StateIds.RHINELAND_PALATINATE, germany.StateIds.SAARLAND
+      germany.StateIds.BAVARIA,
+      germany.StateIds.BADEN_WUERTTEMBERG,
+      germany.StateIds.NORTH_RHINE_WESTPHALIA,
+      germany.StateIds.RHINELAND_PALATINATE,
+      germany.StateIds.SAARLAND,
     ],
     holidays: [
-      { month: Months.NOVEMBER, day: 1, name: germany.HolidayNames.ALL_SAINTS_DAY }
-    ]
+      {
+        month: Months.NOVEMBER,
+        day: 1,
+        name: germany.HolidayNames.ALL_SAINTS_DAY,
+      },
+    ],
   },
   {
     states: [
-      germany.StateIds.BAVARIA, germany.StateIds.BADEN_WUERTTEMBERG, germany.StateIds.SAXONY_ANHALT
+      germany.StateIds.BAVARIA,
+      germany.StateIds.BADEN_WUERTTEMBERG,
+      germany.StateIds.SAXONY_ANHALT,
     ],
     holidays: [
-      { month: Months.JANUARY, day: 6, name: germany.HolidayNames.EPIPHANY }
-    ]
+      { month: Months.JANUARY, day: 6, name: germany.HolidayNames.EPIPHANY },
+    ],
   },
   {
     states: [
-      germany.StateIds.BRANDENBURG, germany.StateIds.BREMEN, germany.StateIds.HAMBURG, germany.StateIds.LOWER_SAXONY,
-      germany.StateIds.MECKLENBURG_WESTERN_POMERANIA, germany.StateIds.SAXONY, germany.StateIds.SAXONY_ANHALT,
-      germany.StateIds.SCHLESWIG_HOLSTEIN, germany.StateIds.THURINGIA
+      germany.StateIds.BRANDENBURG,
+      germany.StateIds.BREMEN,
+      germany.StateIds.HAMBURG,
+      germany.StateIds.LOWER_SAXONY,
+      germany.StateIds.MECKLENBURG_WESTERN_POMERANIA,
+      germany.StateIds.SAXONY,
+      germany.StateIds.SAXONY_ANHALT,
+      germany.StateIds.SCHLESWIG_HOLSTEIN,
+      germany.StateIds.THURINGIA,
     ],
     holidays: [
-      { month: Months.OCTOBER, day: 31, name: germany.HolidayNames.REFORMATION_DAY }
-    ]
+      {
+        month: Months.OCTOBER,
+        day: 31,
+        name: germany.HolidayNames.REFORMATION_DAY,
+      },
+    ],
   },
   {
     states: [germany.StateIds.BERLIN],
     holidays: [
       { month: Months.MARCH, day: 8, name: germany.HolidayNames.WOMENS_DAY },
-    ]
+    ],
   },
   {
     states: [germany.StateIds.SAARLAND],
     holidays: [
-      { month: Months.AUGUST, day: 15, name: germany.HolidayNames.ASSUMPTION_DAY }
-    ]
+      {
+        month: Months.AUGUST,
+        day: 15,
+        name: germany.HolidayNames.ASSUMPTION_DAY,
+      },
+    ],
   },
   {
     states: [germany.StateIds.SAXONY],
     holidays: [
-      { month: Months.NOVEMBER, day: 21, name: germany.HolidayNames.REPETANCE_AND_PRAYER_DAY }
-    ]
-  }
-])
+      {
+        month: Months.NOVEMBER,
+        name: germany.HolidayNames.REPETANCE_AND_PRAYER_DAY,
+      },
+    ],
+  },
+]);
 
 class GermanHolidayCalculator {
   constructor(year, stateId) {
@@ -158,24 +201,24 @@ class GermanHolidayCalculator {
   }
 
   getHoliday(day) {
-    let rec = this.holidays.find(holiday => this.compareDays(holiday.date, day));
-    return (rec ? rec.holiday : "");
+    let rec = this.holidays.find((holiday) =>
+      this.compareDays(holiday.date, day)
+    );
+    return rec ? rec.holiday : "";
   }
 
   isHoliday(day) {
-    return (this.holidays.some(holiday => this.compareDays(holiday, day)));
+    return this.holidays.some((holiday) => this.compareDays(holiday, day));
   }
 
   addGeneralHolidays() {
-    for (const holiday of germany.GeneralHolidays)
-      this.addHoliday(holiday);
+    for (const holiday of germany.GeneralHolidays) this.addHoliday(holiday);
   }
 
   addStateHolidays() {
-    germany.StateHolidays.forEach(entry => {
+    germany.StateHolidays.forEach((entry) => {
       if (entry.states.includes(this.stateId)) {
-        for (const holiday of entry.holidays)
-          this.addHoliday(holiday);
+        for (const holiday of entry.holidays) this.addHoliday(holiday);
       }
     });
   }
@@ -188,12 +231,33 @@ class GermanHolidayCalculator {
 
   calculateDate(holiday) {
     if (holiday.easterOffset !== undefined)
-      return (new Date(this.year, this.easterSunday.getMonth(), this.easterSunday.getDate() + holiday.easterOffset));
-    return (new Date(this.year, holiday.month, holiday.day));
+      return new Date(
+        this.year,
+        this.easterSunday.getMonth(),
+        this.easterSunday.getDate() + holiday.easterOffset
+      );
+    if (holiday.name == germany.HolidayNames.REPETANCE_AND_PRAYER_DAY)
+      return this.calculateRepetanceAndPrayerDay();
+    return new Date(this.year, holiday.month, holiday.day);
+  }
+
+  calculateRepetanceAndPrayerDay() {
+    // The Day of Repetance and Prayer is the first Wendnessday between Nov. 16 and Nov. 22
+    let offset = 0;
+    const wendnessday = 2;
+    const startDate = new Date(this.year, Months.NOVEMBER, 16);
+    // Make Monday day 0, Tuesday  1, etc.
+    const startDateShifted = (startDate.getDay() + 6) % 7;
+    if (startDateShifted < wendnessday) offset = wendnessday - startDateShifted;
+    else offset = 7 - (startDateShifted - wendnessday);
+    const date = new Date(this.year, Months.NOVEMBER, 16 + offset);
+    console.log(date);
+    return date;
   }
 
   compareDays(day1, day2) {
-    return (day1.getDate() === day2.getDate() &&
+    return (
+      day1.getDate() === day2.getDate() &&
       day1.getMonth() === day2.getMonth() &&
       day1.getFullYear() === day2.getFullYear()
     );
@@ -213,7 +277,7 @@ class GermanHolidayCalculator {
     const l = (32 + 2 * e + 2 * i - h - k) % 7;
     const m = Math.floor((a + 11 * h + 22 * l) / 451);
     const n = Math.floor((h + l - 7 * m + 114) / 31);
-    const o = (h + l - 7 * m + 114) % 31 + 1;
+    const o = ((h + l - 7 * m + 114) % 31) + 1;
 
     return new Date(year, n - 1, o);
   }
@@ -254,12 +318,12 @@ class Calendar {
 
   dayOfYear(day) {
     const startOfYear = new Date(day.getFullYear(), Constants.JANUARY, 1);
-    return (Math.floor((day - startOfYear) / Constants.MILLISECONDS_PER_DAY) + 1);
+    return Math.floor((day - startOfYear) / Constants.MILLISECONDS_PER_DAY) + 1;
   }
 
   daysTillEndOfYear(day) {
     const endOfYear = new Date(day.getFullYear(), Constants.DECEMBER, 31);
-    return (Math.floor((endOfYear - this.date) / Constants.MILLISECONDS_PER_DAY));
+    return Math.floor((endOfYear - this.date) / Constants.MILLISECONDS_PER_DAY);
   }
 
   isToday(day) {
@@ -272,36 +336,33 @@ class Calendar {
   }
 
   isHoliday(day) {
-    if (!this.holidayCalculator)
-      return (false);
+    if (!this.holidayCalculator) return false;
     return this.holidayCalculator.isHoliday(day);
   }
 
   getHolidayName(day) {
-    if (!this.holidayCalculator)
-      return ("");
+    if (!this.holidayCalculator) return "";
     const holiday = this.holidayCalculator.getHoliday(day);
-    return (holiday ? holiday.name : "");
+    return holiday ? holiday.name : "";
   }
 }
 
 function init() {
   const today = new Date();
-  const date = new Date(2025, Months.APRIL, 21);
-  holidayCalculator = new GermanHolidayCalculator(2025, germany.StateIds.HESSE);
+  const date = new Date(2027, Months.NOVEMBER, 17);
+  holidayCalculator = new GermanHolidayCalculator(2027, germany.StateIds.SAXONY);
+  holidayCalculator.calculateRepetanceAndPrayerDay();
   alert(holidayCalculator.getHoliday(date));
   //    setPageHeadingDate(date);
   //    createCalendar(today);
 }
-
-
 
 function setPageHeadingDate(date) {
   const selDate = document.getElementById("sel_date");
   selDate.innerHTML = date.toLocaleDateString("de-DE", {
     day: "2-digit",
     month: "2-digit",
-    year: "numeric"
+    year: "numeric",
   });
 }
 
@@ -311,10 +372,13 @@ function getLeadingWeekDays(date) {
 }
 
 function getTrailingWeekDays(date) {
-  const firstDayNextMonth = new Date(date.getFullYear(), date.getMonth() + 1, 1);
+  const firstDayNextMonth = new Date(
+    date.getFullYear(),
+    date.getMonth() + 1,
+    1
+  );
   return (8 - firstDayNextMonth.getDay()) % 7;
 }
-
 
 // Define a CalendarBuilder class to encapsulate data and methods of the calendar builder
 function CalendarBuilder(date) {
@@ -329,12 +393,11 @@ function CalendarBuilder(date) {
 }
 
 function createRow(rowNumber) {
-  if (7 * rowNumber > this.daysInMonth + 6)
-    return null;
-  row = document.createElement('tr');
+  if (7 * rowNumber > this.daysInMonth + 6) return null;
+  row = document.createElement("tr");
   for (let i = 0; i < 7; i++) {
     const day = 7 * rowNumber + i;
-    const cell = row.createElement('td');
+    const cell = row.createElement("td");
     cell.innerText = day + 1;
     this.setCellAttributes(cell, day);
     row.appendChild(cell);
@@ -345,16 +408,16 @@ function createRow(rowNumber) {
 function setCellAttributes(cell, day) {
   this.setDayClass(cell, day);
   const holiday = this.getHoliday(day);
-  if (holiday)
-    cell.setAttribute('holiday', holiday);
-  if (self.isToday(day))
-    cell.setAttribute('id', 'today');
+  if (holiday) cell.setAttribute("holiday", holiday);
+  if (self.isToday(day)) cell.setAttribute("id", "today");
 }
 
 function isToday(day) {
-  return this.today.getDate() === day &&
+  return (
+    this.today.getDate() === day &&
     this.today.getMonth() === this.date.getMonth() &&
-    this.today.getFullYear() === this.date.getFullYear();
+    this.today.getFullYear() === this.date.getFullYear()
+  );
 }
 
 function getHoliday(day) {
@@ -365,8 +428,7 @@ function setDayClass(cell, day) {
   cell.className = "";
   if (day < (this.firstWeekday + 6) % 7)
     cell.className = this.prevMonthDayClass;
-  if (day >= this.daysInMonth)
-    cell.className = this.nextMonthDayClass;
+  if (day >= this.daysInMonth) cell.className = this.nextMonthDayClass;
 }
 
 window.onload = function () {
