@@ -190,7 +190,7 @@ class GermanHolidayCalculator {
     }
     this.stateId = stateId || germany.StateIds.BAVARIA;
     this.year = year;
-    init();
+    this.init();
   }
 
   setYear(year) {
@@ -255,6 +255,14 @@ class GermanHolidayCalculator {
     return new Date(this.year, holiday.month, holiday.day);
   }
 
+  compareDays(day1, day2) {
+    return (
+      day1.getDate() === day2.getDate() &&
+      day1.getMonth() === day2.getMonth() &&
+      day1.getFullYear() === day2.getFullYear()
+    );
+  }
+
   calculateRepetanceAndPrayerDay() {
     // The Day of Repetance and Prayer is the first Wendnessday between Nov. 16 and Nov. 22
     let offset = 0;
@@ -267,14 +275,6 @@ class GermanHolidayCalculator {
     const date = new Date(this.year, Months.NOVEMBER, 16 + offset);
     console.log(date);
     return date;
-  }
-
-  compareDays(day1, day2) {
-    return (
-      day1.getDate() === day2.getDate() &&
-      day1.getMonth() === day2.getMonth() &&
-      day1.getFullYear() === day2.getFullYear()
-    );
   }
 
   calculateEasterSunday(year) {
@@ -300,10 +300,10 @@ class GermanHolidayCalculator {
 class Month {
   constructor(month) {
     this.month = month;
-    this.initMonth();
+    this.init();
   }
 
-  initMonth() {
+  init() {
     const firstDay = new Date(
       this.month.getFullYear(),
       this.month.getMonth(),
@@ -333,24 +333,34 @@ class Month {
 
   choosePrevMonth() {
     this.month = new Date(this.month.getFullYear(), this.month.getMonth() - 1);
-    this.initMonth();
+    this.init();
   }
 
   chooseNextMonth() {
     this.month = new Date(this.month.getFullYear(), this.month.getMonth() + 1);
-    this.initMonth();
+    this.init();
   }
 }
 
 class Calendar {
   constructor(month, holidayCalculator) {
-    this.holidayCalculator = holidayCalculator;
+    this.setHolidayCalculator(holidayCalculator);
     this.setMonth(month);
   }
 
   setHolidayCalculator(holidayCalculator) {
     this.holidayCalculator = holidayCalculator;
-    this.holidayCalculator();
+    this.holidayCalculator.setYear(month.getYear());
+  }
+
+  choosePrevMonth() {
+    this.month.choosePrevMonth();
+    this.holidayCalculator.setYear(month.getYear());
+  }
+
+  chooseNextMonth() {
+    this.month.choosePrevMonth();
+    this.holidayCalculator.setYear(month.getYear());
   }
 
   setMonth(month) {
@@ -387,6 +397,15 @@ class Calendar {
     if (!this.holidayCalculator) return "";
     const holiday = this.holidayCalculator.getHoliday(day);
     return holiday ? holiday.name : "";
+  }
+
+  isLeapYear() {
+    if (this.month.getYear() % 4 != 0)
+      return (false);
+    if (this.month.getYear() % 100 == 0) {
+      return (this.month.getYear() % 400 == 0);
+    }
+    return (false);
   }
 }
 
