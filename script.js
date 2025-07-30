@@ -190,6 +190,20 @@ class GermanHolidayCalculator {
     }
     this.stateId = stateId || germany.StateIds.BAVARIA;
     this.year = year;
+    init();
+  }
+
+  setYear(year) {
+    this.year = year;
+    this.init();
+  }
+
+  setStateId(stateId) {
+    this.stateId = stateId;
+    this.init();
+  }
+
+  init() {
     this.easterSunday = this.calculateEasterSunday(year);
     this.holidays = [];
     this.addHolidays();
@@ -290,8 +304,16 @@ class Month {
   }
 
   initMonth() {
-    const firstDay = new Date(this.month.getFullYear(), this.month.getMonth(), 1);
-    const lastDay = new Date(this.month.getFullYear(), this.month.getMonth() + 1, 0);
+    const firstDay = new Date(
+      this.month.getFullYear(),
+      this.month.getMonth(),
+      1
+    );
+    const lastDay = new Date(
+      this.month.getFullYear(),
+      this.month.getMonth() + 1,
+      0
+    );
     this.daysInMonth = lastDay.getDate();
     this.firstWeekday = firstDay.getDay();
     this.days = [];
@@ -300,11 +322,13 @@ class Month {
 
   addDays() {
     for (let i = 0; i < this.daysInMonth; i++)
-      this.days.push(new Date(this.month.getFullYear(), this.month.getMonth(), i + 1));
+      this.days.push(
+        new Date(this.month.getFullYear(), this.month.getMonth(), i + 1)
+      );
   }
 
   getYear() {
-    return (this.month.getFullYear());
+    return this.month.getFullYear();
   }
 
   choosePrevMonth() {
@@ -326,12 +350,13 @@ class Calendar {
 
   setHolidayCalculator(holidayCalculator) {
     this.holidayCalculator = holidayCalculator;
+    this.holidayCalculator();
   }
 
   setMonth(month) {
     this.date = month;
     this.month = new Month(month);
-    this.holidayCalculator.setYear(month.getFullYear());
+    this.holidayCalculator.setYear(month.getYear());
   }
 
   dayOfYear(day) {
@@ -366,7 +391,6 @@ class Calendar {
 }
 
 function init() {
-
   const monthDate = new Date(2025, Months.JANUARY);
   const month = new Month(monthDate);
   console.log(month.month);
@@ -377,17 +401,22 @@ function init() {
 
   const today = new Date();
   const date = new Date(2027, Months.NOVEMBER, 1);
-  holidayCalculator = new GermanHolidayCalculator(2027, germany.StateIds.SAXONY);
+  holidayCalculator = new GermanHolidayCalculator(
+    2027,
+    germany.StateIds.SAXONY
+  );
   holidayCalculator.calculateRepetanceAndPrayerDay();
   alert(holidayCalculator.getHoliday(date));
   const foo = new Date(2025, 0);
   const bar = new Date(2025, foo.getMonth() - 1);
   console.log(bar);
-  console.log(date.toLocaleDateString("de-DE", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  }));
+  console.log(
+    date.toLocaleDateString("de-DE", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    })
+  );
   //    setPageHeadingDate(date);
   //    createCalendar(today);
 }
