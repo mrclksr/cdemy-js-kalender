@@ -400,15 +400,14 @@ class Calendar {
   }
 
   isLeapYear() {
-    if (this.month.getYear() % 4 != 0)
-      return (false);
+    if (this.month.getYear() % 4 != 0) return false;
     if (this.month.getYear() % 100 == 0) {
-      return (this.month.getYear() % 400 == 0);
+      return this.month.getYear() % 400 == 0;
     }
-    return (false);
+    return false;
   }
 }
-
+/*
 function init() {
   const monthDate = new Date(2025, Months.JANUARY);
   const month = new Month(monthDate);
@@ -517,3 +516,6 @@ function setDayClass(cell, day) {
 window.onload = function () {
   init();
 };
+*/
+
+//export { GermanHolidayCalculator };
