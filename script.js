@@ -184,7 +184,7 @@ germany.StateHolidays = Object.freeze([
 
 class GermanHolidayCalculator {
   constructor(year, stateId) {
-    if (!year) {
+    if (year === undefined || !year) {
       date = new Date();
       year = date.getFullYear();
     }
@@ -204,7 +204,7 @@ class GermanHolidayCalculator {
   }
 
   init() {
-    this.easterSunday = this.calculateEasterSunday(year);
+    this.easterSunday = this.calculateEasterSunday(this.year);
     this.holidays = [];
     this.addHolidays();
   }
@@ -519,3 +519,14 @@ window.onload = function () {
 */
 
 //export { GermanHolidayCalculator };
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { 
+    GermanHolidayCalculator, 
+    Month, 
+    Calendar, 
+    germany, 
+    Months, 
+    Constants 
+  };
+}

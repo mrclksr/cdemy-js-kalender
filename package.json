@@ -1,9 +1,26 @@
 {
-  "devDependencies": {
-    "jest": "^30.0.5"
-  },
+  "name": "german-holiday-calculator",
+  "version": "1.0.0",
+  "description": "German holiday calculator with calendar functionality",
+  "main": "script.js",
   "scripts": {
     "test": "jest",
-    "type": "module"
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
+  },
+  "keywords": ["germany", "holidays", "calendar", "calculator"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "collectCoverageFrom": [
+      "script.js",
+      "!node_modules/**"
+    ],
+    "coverageDirectory": "coverage",
+    "coverageReporters": ["text", "lcov", "html"]
   }
 }
