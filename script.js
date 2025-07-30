@@ -285,18 +285,36 @@ class GermanHolidayCalculator {
 
 class Month {
   constructor(month) {
-    const firstDay = new Date(month.getFullYear(), month.getMonth(), 1);
-    const lastDay = new Date(month.getFullYear(), month.getMonth() + 1, 0);
     this.month = month;
+    this.initMonth();
+  }
+
+  initMonth() {
+    const firstDay = new Date(this.month.getFullYear(), this.month.getMonth(), 1);
+    const lastDay = new Date(this.month.getFullYear(), this.month.getMonth() + 1, 0);
     this.daysInMonth = lastDay.getDate();
     this.firstWeekday = firstDay.getDay();
     this.days = [];
-    this.addDays(date);
+    this.addDays();
   }
 
-  addDays(date) {
+  addDays() {
     for (let i = 0; i < this.daysInMonth; i++)
-      this.days.push(new Date(date.getFullYear(), date.getMonth(), i + 1));
+      this.days.push(new Date(this.month.getFullYear(), this.month.getMonth(), i + 1));
+  }
+
+  getYear() {
+    return (this.month.getFullYear());
+  }
+
+  choosePrevMonth() {
+    this.month = new Date(this.month.getFullYear(), this.month.getMonth() - 1);
+    this.initMonth();
+  }
+
+  chooseNextMonth() {
+    this.month = new Date(this.month.getFullYear(), this.month.getMonth() + 1);
+    this.initMonth();
   }
 }
 
@@ -348,11 +366,28 @@ class Calendar {
 }
 
 function init() {
+
+  const monthDate = new Date(2025, Months.JANUARY);
+  const month = new Month(monthDate);
+  console.log(month.month);
+  month.choosePrevMonth();
+  console.log(month.month);
+  console.log(month.firstWeekday);
+  console.log(month.daysInMonth);
+
   const today = new Date();
-  const date = new Date(2027, Months.NOVEMBER, 17);
+  const date = new Date(2027, Months.NOVEMBER, 1);
   holidayCalculator = new GermanHolidayCalculator(2027, germany.StateIds.SAXONY);
   holidayCalculator.calculateRepetanceAndPrayerDay();
   alert(holidayCalculator.getHoliday(date));
+  const foo = new Date(2025, 0);
+  const bar = new Date(2025, foo.getMonth() - 1);
+  console.log(bar);
+  console.log(date.toLocaleDateString("de-DE", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  }));
   //    setPageHeadingDate(date);
   //    createCalendar(today);
 }
