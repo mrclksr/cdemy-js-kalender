@@ -350,23 +350,23 @@ class Calendar {
 
   setHolidayCalculator(holidayCalculator) {
     this.holidayCalculator = holidayCalculator;
-    this.holidayCalculator.setYear(month.getYear());
+    this.holidayCalculator.setYear(this.month.getYear());
   }
 
   choosePrevMonth() {
     this.month.choosePrevMonth();
-    this.holidayCalculator.setYear(month.getYear());
+    this.holidayCalculator.setYear(this.month.getYear());
   }
 
   chooseNextMonth() {
     this.month.choosePrevMonth();
-    this.holidayCalculator.setYear(month.getYear());
+    this.holidayCalculator.setYear(this.month.getYear());
   }
 
   setMonth(month) {
     this.date = month;
     this.month = new Month(month);
-    this.holidayCalculator.setYear(month.getYear());
+    this.holidayCalculator.setYear(this.month.getYear());
   }
 
   dayOfYear(day) {
