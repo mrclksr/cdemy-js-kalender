@@ -93,7 +93,7 @@ germany.GeneralHolidays = Object.freeze([
   },
   {
     month: Months.JUNE,
-    easterOffset: 49,
+    easterOffset: 50,
     name: germany.HolidayNames.WHIT_MONDAY,
   },
   {
@@ -222,7 +222,7 @@ class GermanHolidayCalculator {
   }
 
   isHoliday(day) {
-    return this.holidays.some((holiday) => this.compareDays(holiday, day));
+    return this.holidays.some((holiday) => this.compareDays(holiday.date, day));
   }
 
   addGeneralHolidays() {
