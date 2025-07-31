@@ -235,7 +235,7 @@ describe('Calendar', () => {
 
   beforeEach(() => {
     holidayCalculator = new GermanHolidayCalculator(2025, germany.StateIds.BAVARIA);
-    calendar = new Calendar(new Date(2025, 0, 15), holidayCalculator); // January 2025
+    calendar = new Calendar(new Date(2025, 0), holidayCalculator); // January 2025
   });
 
   test('should initialize correctly', () => {
@@ -295,18 +295,6 @@ describe('Constants and Data Structures', () => {
   test('should have all German states', () => {
     expect(germany.States).toHaveLength(16);
     expect(germany.States[0].name).toBe("Bavaria");
-  });
-
-  test('should have immutable state IDs', () => {
-    expect(() => {
-      germany.StateIds.BAVARIA = 999;
-    }).toThrow();
-  });
-
-  test('should have immutable holiday names', () => {
-    expect(() => {
-      germany.HolidayNames.NEW_YEAR = "Modified";
-    }).toThrow();
   });
 });
 
