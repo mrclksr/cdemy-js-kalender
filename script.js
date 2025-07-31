@@ -373,9 +373,10 @@ class Calendar {
 
   dayOfYear(day) {
     const startOfYear = new Date(day.getFullYear(), Months.JANUARY, 1);
+    const upToDay = new Date(day.getFullYear(), day.getMonth(), day.getDate());
     return (
       Math.round(
-        (day.getTime() - startOfYear.getTime()) / Constants.MILLISECONDS_PER_DAY
+        (upToDay.getTime() - startOfYear.getTime()) / Constants.MILLISECONDS_PER_DAY
       ) + 1
     );
   }
@@ -414,6 +415,44 @@ class Calendar {
     return true;
   }
 }
+
+window.onload = function () {
+  init();
+}
+
+function init() {
+  const today = new Date();
+  const holidayCalculator = new GermanHolidayCalculator(today.getFullYear(), germany.StateIds.HESSEN);
+  const calendar = new Calendar(new Date(), holidayCalculator);
+  const monthYearStr = today.toLocaleDateString('de-DE', { month: 'long', year: 'numeric' });
+  const dayMonthStr = today.toLocaleDateString('de-DE', { day: 'numeric', month: 'long' });
+  const leapYearStr = " (der " + (calendar.dayOfYear(today) + 1) + ". Tag in Schaltjahren)";
+
+  for (const e of document.querySelectorAll('[date="header"]')) {
+    e.innerHTML = monthYearStr;
+  }
+  for (const e of document.querySelectorAll('[date="day-month"]')) {
+    e.innerHTML = dayMonthStr;
+  }
+
+  for (const e of document.querySelectorAll('[count="days-since"]')) {
+    e.innerHTML = calendar.dayOfYear(today);
+  }
+  for (const e of document.querySelectorAll('[count="days-remain"]')) {
+    e.innerHTML = calendar.daysTillEndOfYear(today);
+  }
+
+  let e = document.getElementById('calendar_head_month_year');
+  if (e)
+    e.innerHTML = monthYearStr;
+  e = document.getElementById('is-holiday');
+  if (e)
+    e.innerHTML = (calendar.isHoliday(today) ? "ein" : "kein");
+  e = document.getElementById('days-with-leap-text');
+  if (e)
+    e.innerHTML = (!calendar.isLeapYear(today) ? leapYearStr : "");
+}
+
 /*
 function init() {
   const monthDate = new Date(2025, Months.JANUARY);

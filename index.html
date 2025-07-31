@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <h1 class="center" id="heading">Kalenderblatt vom <span id="sel_date">14.07.2025</span></h1>
+    <h1 class="center" id="heading">Kalenderblatt vom <span date="header">14.07.2025</span></h1>
     <div id="grid_container">
         <table id="calendar">
             <thead>
@@ -79,11 +79,11 @@
         </table>
         <div id="text_box">
             <div id="description">
-                Der 14. Juli ist der 195. Tag des gregorianischen Kalenders (der 196. in Schaltjahren), somit bleiben
+                Der <span date="day-month"></span> ist der <span count="days-since"></span>. Tag des gregorianischen Kalenders<span id="days-with-leap-text"></span>, somit bleiben
                 noch
-                170
+                <span count="days-remain"></span>
                 Tage bis zum Jahresende.
-                Heute ist kein gesetzlicher Feiertag in Deutschland.
+                Heute ist <span id="is-holiday"></span> gesetzlicher Feiertag in Deutschland.
             </div>
             <div id="history_box">
                 <div id="history_box_head">Historische Ereignisse am 14. Juli</div>
