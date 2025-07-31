@@ -344,8 +344,8 @@ class Month {
 
 class Calendar {
   constructor(month, holidayCalculator) {
+    this.initMonth(month);
     this.setHolidayCalculator(holidayCalculator);
-    this.setMonth(month);
   }
 
   setHolidayCalculator(holidayCalculator) {
@@ -362,10 +362,14 @@ class Calendar {
     this.month.choosePrevMonth();
     this.holidayCalculator.setYear(this.month.getYear());
   }
-
-  setMonth(month) {
+  
+  initMonth(month) {
     this.date = month;
     this.month = new Month(month);
+  }
+  
+  setMonth(month) {
+    this.initMonth(month);
     this.holidayCalculator.setYear(this.month.getYear());
   }
 
