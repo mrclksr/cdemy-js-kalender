@@ -374,13 +374,16 @@ class Calendar {
   }
 
   dayOfYear(day) {
-    const startOfYear = new Date(day.getFullYear(), Constants.JANUARY, 1);
-    return Math.floor((day - startOfYear) / Constants.MILLISECONDS_PER_DAY) + 1;
+    const startOfYear = new Date(day.getFullYear(), Months.JANUARY, 1);
+    console.log(day.getFullYear());
+    console.log(startOfYear.getFullYear());
+    console.log(day - startOfYear);
+    return (Math.floor((day.getTime() - startOfYear.getTime()) / Constants.MILLISECONDS_PER_DAY) + 1);
   }
 
   daysTillEndOfYear(day) {
     const endOfYear = new Date(day.getFullYear(), Constants.DECEMBER, 31);
-    return Math.floor((endOfYear - this.date) / Constants.MILLISECONDS_PER_DAY);
+    return Math.floor((endOfYear.getTime() - this.date.getTime()) / Constants.MILLISECONDS_PER_DAY);
   }
 
   isToday(day) {
@@ -400,15 +403,15 @@ class Calendar {
   getHolidayName(day) {
     if (!this.holidayCalculator) return "";
     const holiday = this.holidayCalculator.getHoliday(day);
-    return holiday ? holiday.name : "";
+    return (holiday ? holiday : "");
   }
 
   isLeapYear() {
     if (this.month.getYear() % 4 != 0) return false;
     if (this.month.getYear() % 100 == 0) {
-      return this.month.getYear() % 400 == 0;
+      return (this.month.getYear() % 400 == 0);
     }
-    return false;
+    return (true);
   }
 }
 /*
