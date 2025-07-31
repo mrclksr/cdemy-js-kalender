@@ -425,7 +425,7 @@ function init() {
   const holidayCalculator = new GermanHolidayCalculator(today.getFullYear(), germany.StateIds.HESSEN);
   const calendar = new Calendar(new Date(), holidayCalculator);
   const monthYearStr = today.toLocaleDateString('de-DE', { month: 'long', year: 'numeric' });
-  const dayMonthStr = today.toLocaleDateString('de-DE', { day: 'numeric', month: 'long' });
+  const dayMonthStr = today.toLocaleDateString('de-DE', { day: '2-digit', month: 'long' });
   const leapYearStr = " (der " + (calendar.dayOfYear(today) + 1) + ". Tag in Schaltjahren)";
 
   for (const e of document.querySelectorAll('[date="header"]')) {
