@@ -272,11 +272,22 @@ describe('Calendar', () => {
     const jan31 = new Date(2025, 0, 31);
     const feb1 = new Date(2025, 1, 1);
     const dec31 = new Date(2025, 11, 31);
-    
+    const jul31 = new Date(2025, 6, 31);
+    const oct8 = new Date(2025, 9, 8);
+
     expect(calendar.dayOfYear(jan1)).toBe(1);
     expect(calendar.dayOfYear(jan31)).toBe(31);
     expect(calendar.dayOfYear(feb1)).toBe(32);
+    expect(calendar.dayOfYear(jul31)).toBe(212);
+    expect(calendar.dayOfYear(oct8)).toBe(281);
     expect(calendar.dayOfYear(dec31)).toBe(365);
+  });
+
+test('should calculate remaining days of year correctly', () => {
+    const jul31 = new Date(2025, 6, 31);
+    const oct8 = new Date(2025, 9, 8);
+    expect(calendar.daysTillEndOfYear(jul31)).toBe(153);
+    expect(calendar.daysTillEndOfYear(oct8)).toBe(84);
   });
 
   test('should set month correctly', () => {

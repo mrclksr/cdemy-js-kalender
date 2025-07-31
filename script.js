@@ -375,15 +375,12 @@ class Calendar {
 
   dayOfYear(day) {
     const startOfYear = new Date(day.getFullYear(), Months.JANUARY, 1);
-    console.log(day.getFullYear());
-    console.log(startOfYear.getFullYear());
-    console.log(day - startOfYear);
-    return (Math.floor((day.getTime() - startOfYear.getTime()) / Constants.MILLISECONDS_PER_DAY) + 1);
+    return (Math.round((day.getTime() - startOfYear.getTime()) / Constants.MILLISECONDS_PER_DAY) + 1);
   }
 
   daysTillEndOfYear(day) {
-    const endOfYear = new Date(day.getFullYear(), Constants.DECEMBER, 31);
-    return Math.floor((endOfYear.getTime() - this.date.getTime()) / Constants.MILLISECONDS_PER_DAY);
+    console.log(365 - this.dayOfYear(day) + (this.isLeapYear(day.getFullYear()) ? 1 : 0));
+    return (365 - this.dayOfYear(day) + (this.isLeapYear(day.getFullYear()) ? 1 : 0));
   }
 
   isToday(day) {
