@@ -272,9 +272,7 @@ class GermanHolidayCalculator {
     const startDateShifted = (startDate.getDay() + 6) % 7;
     if (startDateShifted < wendnessday) offset = wendnessday - startDateShifted;
     else offset = 7 - (startDateShifted - wendnessday);
-    const date = new Date(this.year, Months.NOVEMBER, 16 + offset);
-    console.log(date);
-    return date;
+    return new Date(this.year, Months.NOVEMBER, 16 + offset);
   }
 
   calculateEasterSunday(year) {
@@ -362,12 +360,12 @@ class Calendar {
     this.month.choosePrevMonth();
     this.holidayCalculator.setYear(this.month.getYear());
   }
-  
+
   initMonth(month) {
     this.date = month;
     this.month = new Month(month);
   }
-  
+
   setMonth(month) {
     this.initMonth(month);
     this.holidayCalculator.setYear(this.month.getYear());
@@ -375,12 +373,17 @@ class Calendar {
 
   dayOfYear(day) {
     const startOfYear = new Date(day.getFullYear(), Months.JANUARY, 1);
-    return (Math.round((day.getTime() - startOfYear.getTime()) / Constants.MILLISECONDS_PER_DAY) + 1);
+    return (
+      Math.round(
+        (day.getTime() - startOfYear.getTime()) / Constants.MILLISECONDS_PER_DAY
+      ) + 1
+    );
   }
 
   daysTillEndOfYear(day) {
-    console.log(365 - this.dayOfYear(day) + (this.isLeapYear(day.getFullYear()) ? 1 : 0));
-    return (365 - this.dayOfYear(day) + (this.isLeapYear(day.getFullYear()) ? 1 : 0));
+    return (
+      365 - this.dayOfYear(day) + (this.isLeapYear(day.getFullYear()) ? 1 : 0)
+    );
   }
 
   isToday(day) {
@@ -400,15 +403,15 @@ class Calendar {
   getHolidayName(day) {
     if (!this.holidayCalculator) return "";
     const holiday = this.holidayCalculator.getHoliday(day);
-    return (holiday ? holiday : "");
+    return holiday ? holiday : "";
   }
 
   isLeapYear() {
     if (this.month.getYear() % 4 != 0) return false;
     if (this.month.getYear() % 100 == 0) {
-      return (this.month.getYear() % 400 == 0);
+      return this.month.getYear() % 400 == 0;
     }
-    return (true);
+    return true;
   }
 }
 /*
@@ -524,13 +527,13 @@ window.onload = function () {
 
 //export { GermanHolidayCalculator };
 
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { 
-    GermanHolidayCalculator, 
-    Month, 
-    Calendar, 
-    germany, 
-    Months, 
-    Constants 
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = {
+    GermanHolidayCalculator,
+    Month,
+    Calendar,
+    germany,
+    Months,
+    Constants,
   };
 }
