@@ -270,10 +270,12 @@ describe('Calendar', () => {
   test('should calculate day of year correctly', () => {
     const jan1 = new Date(2025, 0, 1);
     const jan31 = new Date(2025, 0, 31);
+    const feb1 = new Date(2025, 1, 1);
     const dec31 = new Date(2025, 11, 31);
     
     expect(calendar.dayOfYear(jan1)).toBe(1);
     expect(calendar.dayOfYear(jan31)).toBe(31);
+    expect(calendar.dayOfYear(feb1)).toBe(32);
     expect(calendar.dayOfYear(dec31)).toBe(365);
   });
 
