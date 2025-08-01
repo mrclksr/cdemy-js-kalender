@@ -444,6 +444,8 @@ class Calendar {
   }
 
   initMonth(month) {
+    if (!month || month === undefined)
+      month = new Date();
     this.date = month;
     this.month = new Month(month);
   }
