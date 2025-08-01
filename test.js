@@ -153,7 +153,7 @@ describe('GermanHolidayCalculator', () => {
   describe('Day of Repentance and Prayer', () => {
     test('should calculate Day of Repentance and Prayer correctly for 2025', () => {
       const saxonyCalc = new GermanHolidayCalculator(2025, germany.StateIds.SAXONY);
-      const repentanceDay = saxonyCalc.calculateRepetanceAndPrayerDay();
+      const repentanceDay = saxonyCalc.calculateRepentanceAndPrayerDay();
       expect(repentanceDay.getFullYear()).toBe(2025);
       expect(repentanceDay.getMonth()).toBe(10); // November
       expect(repentanceDay.getDate()).toBe(19); // Should be Nov 19
@@ -172,16 +172,16 @@ describe('GermanHolidayCalculator', () => {
       const repentanceDay2028 = new Date(2028, 10, 22);
 
       expect(saxonyCalc2025.isHoliday(repentanceDay2025)).toBe(true);
-      expect(saxonyCalc2025.getHoliday(repentanceDay2025)).toBe(germany.HolidayNames.REPETANCE_AND_PRAYER_DAY);
+      expect(saxonyCalc2025.getHoliday(repentanceDay2025)).toBe(germany.HolidayNames.REPENTANCE_AND_PRAYER_DAY);
 
       expect(saxonyCalc2026.isHoliday(repentanceDay2026)).toBe(true);
-      expect(saxonyCalc2026.getHoliday(repentanceDay2026)).toBe(germany.HolidayNames.REPETANCE_AND_PRAYER_DAY);
+      expect(saxonyCalc2026.getHoliday(repentanceDay2026)).toBe(germany.HolidayNames.REPENTANCE_AND_PRAYER_DAY);
       
       expect(saxonyCalc2027.isHoliday(repentanceDay2027)).toBe(true);
-      expect(saxonyCalc2027.getHoliday(repentanceDay2027)).toBe(germany.HolidayNames.REPETANCE_AND_PRAYER_DAY);
+      expect(saxonyCalc2027.getHoliday(repentanceDay2027)).toBe(germany.HolidayNames.REPENTANCE_AND_PRAYER_DAY);
 
       expect(saxonyCalc2028.isHoliday(repentanceDay2028)).toBe(true);
-      expect(saxonyCalc2028.getHoliday(repentanceDay2028)).toBe(germany.HolidayNames.REPETANCE_AND_PRAYER_DAY);
+      expect(saxonyCalc2028.getHoliday(repentanceDay2028)).toBe(germany.HolidayNames.REPENTANCE_AND_PRAYER_DAY);
     });
   });
 

@@ -80,7 +80,7 @@ germany.HolidayNames = Object.freeze({
   REPUBLIC_DAY: "Republic Day",
   WOMENS_DAY: "Women's Day",
   ASSUMPTION_DAY: "Assumption Day",
-  REPETANCE_AND_PRAYER_DAY: "Day of Repentance and Prayer",
+  REPENTANCE_AND_PRAYER_DAY: "Day of Repentance and Prayer",
 });
 
 germany.GeneralHolidays = Object.freeze([
@@ -176,7 +176,7 @@ germany.StateHolidays = Object.freeze([
     holidays: [
       {
         month: Months.NOVEMBER,
-        name: germany.HolidayNames.REPETANCE_AND_PRAYER_DAY,
+        name: germany.HolidayNames.REPENTANCE_AND_PRAYER_DAY,
       },
     ],
   },
@@ -250,8 +250,8 @@ class GermanHolidayCalculator {
         this.easterSunday.getMonth(),
         this.easterSunday.getDate() + holiday.easterOffset
       );
-    if (holiday.name == germany.HolidayNames.REPETANCE_AND_PRAYER_DAY)
-      return this.calculateRepetanceAndPrayerDay();
+    if (holiday.name == germany.HolidayNames.REPENTANCE_AND_PRAYER_DAY)
+      return this.calculateRepentanceAndPrayerDay();
     return new Date(this.year, holiday.month, holiday.day);
   }
 
@@ -263,15 +263,15 @@ class GermanHolidayCalculator {
     );
   }
 
-  calculateRepetanceAndPrayerDay() {
-    // The Day of Repetance and Prayer is the first Wendnessday between Nov. 16 and Nov. 22
+  calculateRepentanceAndPrayerDay() {
+    // The Day of Repentance and Prayer is the first Wednesday between Nov. 16 and Nov. 22
     let offset = 0;
-    const wendnessday = 2;
+    const wednesday = 2;
     const startDate = new Date(this.year, Months.NOVEMBER, 16);
     // Make Monday day 0, Tuesday  1, etc.
     const startDateShifted = (startDate.getDay() + 6) % 7;
-    if (startDateShifted < wendnessday) offset = wendnessday - startDateShifted;
-    else offset = 7 - (startDateShifted - wendnessday);
+    if (startDateShifted < wednesday) offset = wednesday - startDateShifted;
+    else offset = 7 - (startDateShifted - wednesday);
     return new Date(this.year, Months.NOVEMBER, 16 + offset);
   }
 
@@ -415,11 +415,11 @@ class Calendar {
     return true;
   }
 }
-
+/*
 window.onload = function () {
   init();
 }
-
+*/
 function init() {
   const today = new Date();
   const holidayCalculator = new GermanHolidayCalculator(today.getFullYear(), germany.StateIds.HESSEN);
@@ -469,7 +469,7 @@ function init() {
     2027,
     germany.StateIds.SAXONY
   );
-  holidayCalculator.calculateRepetanceAndPrayerDay();
+  holidayCalculator.calculateRepentanceAndPrayerDay();
   alert(holidayCalculator.getHoliday(date));
   const foo = new Date(2025, 0);
   const bar = new Date(2025, foo.getMonth() - 1);
