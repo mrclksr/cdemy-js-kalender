@@ -424,10 +424,7 @@ class Calendar {
 
   isLeapYear() {
     if (this.month.getYear() % 4 != 0) return false;
-    if (this.month.getYear() % 100 == 0) {
-      return this.month.getYear() % 400 == 0;
-    }
-    return true;
+    return (this.month.getYear() % 400 == 0);
   }
 }
 
