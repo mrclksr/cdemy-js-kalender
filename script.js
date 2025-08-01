@@ -274,7 +274,8 @@ class GermanHolidayCalculator {
     else offset = 7 - (startDateShifted - wednesday);
     return new Date(this.year, Months.NOVEMBER, 16 + offset);
   }
-
+  
+  // Calculate Easter Sunday using the Spencer algorithm.
   calculateEasterSunday(year) {
     const a = year % 19;
     const b = Math.floor(year / 100);
