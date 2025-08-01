@@ -381,11 +381,11 @@ class Calendar {
     let leapDay = this.isLeapYear() ? 1 : 0;
     // Use the knuckle mnemonic to get the # of days in a month.
     for (let m = Months.JANUARY; m < day.getMonth(); m++) {
-      if (m == Months.FEBRUARY) days += 28;
+      if (m == Months.FEBRUARY) days += 28 + leapDay;
       else if ((m % 7) % 2 == 0) days += 31;
       else days += 30;
     }
-    return days + leapDay + day.getDate();
+    return days + day.getDate();
   }
 
   getDaysTillEndOfYear(day) {
