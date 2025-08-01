@@ -1,7 +1,3 @@
-const Constants = {
-  MILLISECONDS_PER_DAY: 24 * 60 * 60 * 1000,
-};
-
 const Months = {
   JANUARY: 0,
   FEBRUARY: 1,
@@ -515,7 +511,6 @@ if (typeof module !== "undefined" && module.exports) {
     Calendar,
     Germany,
     Months,
-    Constants,
   };
 } else {
   window.onload = function () {

@@ -4,7 +4,6 @@ const {
   Calendar, 
   Germany, 
   Months, 
-  Constants 
 } = require('./script.js');
 
 describe('GermanHolidayCalculator', () => {
