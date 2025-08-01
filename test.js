@@ -284,11 +284,15 @@ describe('Calendar', () => {
   });
 
   test('should check leap year correctly', () => {
-    const leapYearCalendar = new Calendar(new Date(2024, 0, 15), holidayCalculator);
-    const regularYearCalendar = new Calendar(new Date(2025, 0, 15), holidayCalculator);
-    
-    expect(leapYearCalendar.isLeapYear()).toBe(true);
-    expect(regularYearCalendar.isLeapYear()).toBe(false);
+    const leapYearCalendar2024 = new Calendar(new Date(2024, 0, 15), holidayCalculator);
+    const leapYearCalendar2000 = new Calendar(new Date(2000, 0, 15), holidayCalculator);
+    const regularYearCalendar2025 = new Calendar(new Date(2025, 0, 15), holidayCalculator);
+    const regularYearCalendar1900 = new Calendar(new Date(1900, 0, 15), holidayCalculator);
+
+    expect(leapYearCalendar2024.isLeapYear()).toBe(true);
+    expect(leapYearCalendar2000.isLeapYear()).toBe(true);
+    expect(regularYearCalendar2025.isLeapYear()).toBe(false);
+    expect(regularYearCalendar1900.isLeapYear()).toBe(false);
   });
 
   test('should calculate day of year correctly', () => {
