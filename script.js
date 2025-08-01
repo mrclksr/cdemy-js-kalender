@@ -365,11 +365,6 @@ class Calendar {
     this.setHolidayCalculator(holidayCalculator);
   }
 
-  setHolidayCalculator(holidayCalculator) {
-    this.holidayCalculator = holidayCalculator;
-    this.holidayCalculator.setYear(this.month.getYear());
-  }
-
   choosePrevMonth() {
     this.month.choosePrevMonth();
     this.holidayCalculator.setYear(this.month.getYear());
@@ -380,17 +375,7 @@ class Calendar {
     this.holidayCalculator.setYear(this.month.getYear());
   }
 
-  initMonth(month) {
-    this.date = month;
-    this.month = new Month(month);
-  }
-
-  setMonth(month) {
-    this.initMonth(month);
-    this.holidayCalculator.setYear(this.month.getYear());
-  }
-
-  dayOfYear(day) {
+  getDaysSinceStartOfYear(day) {
     const startOfYear = new Date(day.getFullYear(), Months.JANUARY, 1);
     const upToDay = new Date(day.getFullYear(), day.getMonth(), day.getDate());
     return (
@@ -401,24 +386,10 @@ class Calendar {
     );
   }
 
-  daysTillEndOfYear(day) {
+  getDaysTillEndOfYear(day) {
     return (
-      365 - this.dayOfYear(day) + (this.isLeapYear(day.getFullYear()) ? 1 : 0)
+      365 - this.getDaysSinceStartOfYear(day) + (this.isLeapYear(day.getFullYear()) ? 1 : 0)
     );
-  }
-
-  isToday(day) {
-    const today = new Date();
-    return (
-      day.date.getFullYear() === today.getFullYear() &&
-      day.date.getMonth() === today.getMonth() &&
-      day.date.getDate() === today.getDate()
-    );
-  }
-
-  isHoliday(day) {
-    if (!this.holidayCalculator) return false;
-    return this.holidayCalculator.isHoliday(day);
   }
 
   getHolidayName(day) {
@@ -439,10 +410,39 @@ class Calendar {
     return this.month.getLastWeekDay();
   }
 
+  isToday(day) {
+    const today = new Date();
+    return (
+      day.date.getFullYear() === today.getFullYear() &&
+      day.date.getMonth() === today.getMonth() &&
+      day.date.getDate() === today.getDate()
+    );
+  }
+
   isLeapYear() {
     if (this.month.getYear() % 4 != 0) return false;
     if (this.month.getYear() % 100 != 0) return true;
     return this.month.getYear() % 400 == 0;
+  }
+
+  isHoliday(day) {
+    if (!this.holidayCalculator) return false;
+    return this.holidayCalculator.isHoliday(day);
+  }
+
+  setHolidayCalculator(holidayCalculator) {
+    this.holidayCalculator = holidayCalculator;
+    this.holidayCalculator.setYear(this.month.getYear());
+  }
+
+  setMonth(month) {
+    this.initMonth(month);
+    this.holidayCalculator.setYear(this.month.getYear());
+  }
+
+  initMonth(month) {
+    this.date = month;
+    this.month = new Month(month);
   }
 }
 
@@ -471,13 +471,13 @@ function init() {
     month: "long",
   });
   const leapYearStr =
-    " (der " + (calendar.dayOfYear(today) + 1) + ". Tag in Schaltjahren)";
+    " (der " + (calendar.getDaysSinceStartOfYear(today) + 1) + ". Tag in Schaltjahren)";
 
   const replacements = [
     { query: '[date="numeric-date"]', val: numericDate },
     { query: '[date="day-month"]', val: dayMonthStr },
-    { query: '[count="days-since"]', val: calendar.dayOfYear(today) },
-    { query: '[count="days-remain"]', val: calendar.daysTillEndOfYear(today) },
+    { query: '[count="days-since"]', val: calendar.getDaysSinceStartOfYear(today) },
+    { query: '[count="days-remain"]', val: calendar.getDaysTillEndOfYear(today) },
     { query: '[date="day-of-week"]', val: weekDay },
     { query: '[date="nth-day-of-week"]', val: nthDayOfWeek },
   ];
