@@ -308,6 +308,8 @@ describe('Calendar', () => {
     const dec31 = new Date(2025, 11, 31);
     const jul31 = new Date(2025, 6, 31);
     const oct8 = new Date(2025, 9, 8);
+    const leapYearDay = new Date(2024, 7, 1);
+    const leapYearCalendar = new Calendar(new Date(2024, 7), holidayCalculator);
 
     expect(calendar.getDaysSinceStartOfYear(jan1)).toBe(1);
     expect(calendar.getDaysSinceStartOfYear(jan31)).toBe(31);
@@ -315,6 +317,7 @@ describe('Calendar', () => {
     expect(calendar.getDaysSinceStartOfYear(jul31)).toBe(212);
     expect(calendar.getDaysSinceStartOfYear(oct8)).toBe(281);
     expect(calendar.getDaysSinceStartOfYear(dec31)).toBe(365);
+    expect(leapYearCalendar.getDaysSinceStartOfYear(leapYearDay)).toBe(214);
   });
 
 test('should calculate remaining days of year correctly', () => {

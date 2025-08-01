@@ -333,7 +333,7 @@ class Month {
     this.month = new Date(this.month.getFullYear(), this.month.getMonth() + 1);
     this.init();
   }
-  
+
   init() {
     const firstDay = new Date(
       this.month.getFullYear(),
@@ -377,14 +377,15 @@ class Calendar {
   }
 
   getDaysSinceStartOfYear(day) {
-    const startOfYear = new Date(day.getFullYear(), Months.JANUARY, 1);
-    const upToDay = new Date(day.getFullYear(), day.getMonth(), day.getDate());
-    return (
-      Math.round(
-        (upToDay.getTime() - startOfYear.getTime()) /
-          Constants.MILLISECONDS_PER_DAY
-      ) + 1
-    );
+    let days = 0;
+    let leapDay = this.isLeapYear() ? 1 : 0;
+    // Use the knuckle mnemonic to get the # of days in a month.
+    for (let m = Months.JANUARY; m < day.getMonth(); m++) {
+      if (m == Months.FEBRUARY) days += 28;
+      else if ((m % 7) % 2 == 0) days += 31;
+      else days += 30;
+    }
+    return days + leapDay + day.getDate();
   }
 
   getDaysTillEndOfYear(day) {
