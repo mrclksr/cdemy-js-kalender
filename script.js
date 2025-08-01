@@ -331,15 +331,15 @@ class Month {
   }
 
   getDaysInMonth() {
-    return (this.daysInMonth);
+    return this.daysInMonth;
   }
 
   getFirstWeekDay() {
-    return (this.firstWeekday);
+    return this.firstWeekday;
   }
 
   getLastWeekDay() {
-    return (this.lastWeekDay);
+    return this.lastWeekDay;
   }
 
   choosePrevMonth() {
@@ -430,9 +430,7 @@ class Calendar {
   }
 }
 
-function buildCalendar() {
-
-}
+function buildCalendar() {}
 
 function init() {
   const today = new Date();
@@ -441,6 +439,11 @@ function init() {
     germany.StateIds.HESSEN
   );
   const calendar = new Calendar(new Date(), holidayCalculator);
+  const numericDate = today.toLocaleDateString("de-DE", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
   const monthYearStr = today.toLocaleDateString("de-DE", {
     month: "long",
     year: "numeric",
@@ -453,7 +456,7 @@ function init() {
     " (der " + (calendar.dayOfYear(today) + 1) + ". Tag in Schaltjahren)";
 
   const replacements = [
-    { query: '[date="header"]', val: monthYearStr },
+    { query: '[date="header"]', val: numericDate },
     { query: '[date="day-month"]', val: dayMonthStr },
     { query: '[count="days-since"]', val: calendar.dayOfYear(today) },
     { query: '[count="days-remain"]', val: calendar.daysTillEndOfYear(today) },
