@@ -87,16 +87,6 @@ germany.GeneralHolidays = Object.freeze([
   { month: Months.JANUARY, day: 1, name: germany.HolidayNames.NEW_YEAR },
   { month: Months.MAY, day: 1, name: germany.HolidayNames.LABOR_DAY },
   {
-    month: Months.MAY,
-    easterOffset: 39,
-    name: germany.HolidayNames.ASCENSION_DAY,
-  },
-  {
-    month: Months.JUNE,
-    easterOffset: 50,
-    name: germany.HolidayNames.WHIT_MONDAY,
-  },
-  {
     month: Months.OCTOBER,
     day: 3,
     name: germany.HolidayNames.GERMAN_UNITY_DAY,
@@ -106,6 +96,8 @@ germany.GeneralHolidays = Object.freeze([
   { easterOffset: 0, name: germany.HolidayNames.EASTER_SUNDAY },
   { easterOffset: 1, name: germany.HolidayNames.EASTER_MONDAY },
   { easterOffset: -2, name: germany.HolidayNames.GOOD_FRIDAY },
+  { easterOffset: 39, name: germany.HolidayNames.ASCENSION_DAY },
+  { easterOffset: 50, name: germany.HolidayNames.WHIT_MONDAY },
 ]);
 
 germany.StateHolidays = Object.freeze([
@@ -425,7 +417,7 @@ class Calendar {
   isLeapYear() {
     if (this.month.getYear() % 4 != 0) return false;
     if (this.month.getYear() % 100 != 0) return true;
-    return (this.month.getYear() % 400 == 0);
+    return this.month.getYear() % 400 == 0;
   }
 }
 
