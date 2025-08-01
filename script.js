@@ -274,7 +274,7 @@ class GermanHolidayCalculator {
     else offset = 7 - (startDateShifted - wednesday);
     return new Date(this.year, Months.NOVEMBER, 16 + offset);
   }
-  
+
   // Calculate Easter Sunday using the Spencer algorithm.
   calculateEasterSunday(year) {
     const a = year % 19;
@@ -435,6 +435,8 @@ function buildCalendar() {}
 
 function init() {
   const today = new Date();
+  const weekDay = today.toLocaleDateString("de-DE", { weekday: "long"});
+  const nthDayOfWeek = (today.getDay() + 6) % 7 + 1;
   const holidayCalculator = new GermanHolidayCalculator(
     today.getFullYear(),
     germany.StateIds.HESSEN
@@ -458,9 +460,12 @@ function init() {
 
   const replacements = [
     { query: '[date="header"]', val: numericDate },
+    { query: '[date="numeric-date"]', val: numericDate },
     { query: '[date="day-month"]', val: dayMonthStr },
     { query: '[count="days-since"]', val: calendar.dayOfYear(today) },
     { query: '[count="days-remain"]', val: calendar.daysTillEndOfYear(today) },
+    { query: '[date="day-of-week"]', val: weekDay },
+    { query: '[date="nth-day-of-week"]', val: nthDayOfWeek }
   ];
 
   for (r of replacements) {
