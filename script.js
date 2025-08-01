@@ -314,6 +314,7 @@ class Month {
     );
     this.daysInMonth = lastDay.getDate();
     this.firstWeekday = firstDay.getDay();
+    this.lastWeekDay = lastDay.getDay();
     this.days = [];
     this.addDays();
   }
@@ -327,6 +328,18 @@ class Month {
 
   getYear() {
     return this.month.getFullYear();
+  }
+
+  getDaysInMonth() {
+    return (this.daysInMonth);
+  }
+
+  getFirstWeekDay() {
+    return (this.firstWeekday);
+  }
+
+  getLastWeekDay() {
+    return (this.lastWeekDay);
   }
 
   choosePrevMonth() {
@@ -376,7 +389,8 @@ class Calendar {
     const upToDay = new Date(day.getFullYear(), day.getMonth(), day.getDate());
     return (
       Math.round(
-        (upToDay.getTime() - startOfYear.getTime()) / Constants.MILLISECONDS_PER_DAY
+        (upToDay.getTime() - startOfYear.getTime()) /
+          Constants.MILLISECONDS_PER_DAY
       ) + 1
     );
   }
@@ -415,42 +429,48 @@ class Calendar {
     return true;
   }
 }
-/*
-window.onload = function () {
-  init();
+
+function buildCalendar() {
+
 }
-*/
+
 function init() {
   const today = new Date();
-  const holidayCalculator = new GermanHolidayCalculator(today.getFullYear(), germany.StateIds.HESSEN);
+  const holidayCalculator = new GermanHolidayCalculator(
+    today.getFullYear(),
+    germany.StateIds.HESSEN
+  );
   const calendar = new Calendar(new Date(), holidayCalculator);
-  const monthYearStr = today.toLocaleDateString('de-DE', { month: 'long', year: 'numeric' });
-  const dayMonthStr = today.toLocaleDateString('de-DE', { day: '2-digit', month: 'long' });
-  const leapYearStr = " (der " + (calendar.dayOfYear(today) + 1) + ". Tag in Schaltjahren)";
+  const monthYearStr = today.toLocaleDateString("de-DE", {
+    month: "long",
+    year: "numeric",
+  });
+  const dayMonthStr = today.toLocaleDateString("de-DE", {
+    day: "2-digit",
+    month: "long",
+  });
+  const leapYearStr =
+    " (der " + (calendar.dayOfYear(today) + 1) + ". Tag in Schaltjahren)";
 
-  for (const e of document.querySelectorAll('[date="header"]')) {
-    e.innerHTML = monthYearStr;
-  }
-  for (const e of document.querySelectorAll('[date="day-month"]')) {
-    e.innerHTML = dayMonthStr;
+  const replacements = [
+    { query: '[date="header"]', val: monthYearStr },
+    { query: '[date="day-month"]', val: dayMonthStr },
+    { query: '[count="days-since"]', val: calendar.dayOfYear(today) },
+    { query: '[count="days-remain"]', val: calendar.daysTillEndOfYear(today) },
+  ];
+
+  for (r of replacements) {
+    for (const e of document.querySelectorAll(r.query)) {
+      e.innerHTML = r.val;
+    }
   }
 
-  for (const e of document.querySelectorAll('[count="days-since"]')) {
-    e.innerHTML = calendar.dayOfYear(today);
-  }
-  for (const e of document.querySelectorAll('[count="days-remain"]')) {
-    e.innerHTML = calendar.daysTillEndOfYear(today);
-  }
-
-  let e = document.getElementById('calendar_head_month_year');
-  if (e)
-    e.innerHTML = monthYearStr;
-  e = document.getElementById('is-holiday');
-  if (e)
-    e.innerHTML = (calendar.isHoliday(today) ? "ein" : "kein");
-  e = document.getElementById('days-with-leap-text');
-  if (e)
-    e.innerHTML = (!calendar.isLeapYear(today) ? leapYearStr : "");
+  let e = document.getElementById("calendar_head_month_year");
+  if (e) e.innerHTML = monthYearStr;
+  e = document.getElementById("is-holiday");
+  if (e) e.innerHTML = calendar.isHoliday(today) ? "ein" : "kein";
+  e = document.getElementById("days-with-leap-text");
+  if (e) e.innerHTML = !calendar.isLeapYear(today) ? leapYearStr : "";
 }
 
 /*
@@ -574,5 +594,9 @@ if (typeof module !== "undefined" && module.exports) {
     germany,
     Months,
     Constants,
+  };
+} else {
+  window.onload = function () {
+    init();
   };
 }

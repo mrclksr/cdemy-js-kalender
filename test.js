@@ -240,6 +240,14 @@ describe('Month', () => {
     expect(month.getYear()).toBe(2025);
   });
 
+  test('should get first week day correctly', () => {
+    expect(month.getFirstWeekDay()).toBe(3);
+  });
+
+  test('should get last week day correctly', () => {
+    expect(month.getLastWeekDay()).toBe(5);
+  });
+
   test('should handle leap year February', () => {
     const leapMonth = new Month(new Date(2024, 1, 15)); // February 2024
     expect(leapMonth.daysInMonth).toBe(29);
