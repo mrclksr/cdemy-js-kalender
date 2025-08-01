@@ -398,8 +398,7 @@ class Calendar {
 
   getHolidayName(day) {
     if (!this.holidayCalculator) return "";
-    const holiday = this.holidayCalculator.getHoliday(day);
-    return holiday ? holiday : "";
+    return this.holidayCalculator.getHoliday(day);
   }
 
   getDaysInMonth() {
