@@ -303,8 +303,8 @@ class GermanHolidayCalculator {
 
 class Month {
   constructor(month) {
-    if (!month || month === undefined) this.month = new Date();
-    else this.month = month;
+    if (!month || month === undefined) month = new Date();
+    this.month = month;
     this.init();
   }
 
@@ -444,8 +444,7 @@ class Calendar {
   }
 
   initMonth(month) {
-    if (!month || month === undefined)
-      month = new Date();
+    if (!month || month === undefined) month = new Date();
     this.date = month;
     this.month = new Month(month);
   }
