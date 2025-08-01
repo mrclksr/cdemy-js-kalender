@@ -459,7 +459,6 @@ function init() {
     " (der " + (calendar.dayOfYear(today) + 1) + ". Tag in Schaltjahren)";
 
   const replacements = [
-    { query: '[date="header"]', val: numericDate },
     { query: '[date="numeric-date"]', val: numericDate },
     { query: '[date="day-month"]', val: dayMonthStr },
     { query: '[count="days-since"]', val: calendar.dayOfYear(today) },
