@@ -1,4 +1,3 @@
-// Importiere die Klassen aus der korrigierten script.js
 const { 
   GermanHolidayCalculator, 
   Month, 
