@@ -436,7 +436,7 @@ function init() {
 
   const holidayCalculator = new GermanHolidayCalculator(
     today.getFullYear(),
-    germany.StateIds.HESSEN
+    germany.StateIds.HESSE
   );
   const calendar = new Calendar(new Date(), holidayCalculator);
 
