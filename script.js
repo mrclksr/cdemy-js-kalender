@@ -427,6 +427,18 @@ class Calendar {
     return holiday ? holiday : "";
   }
 
+  getDaysInMonth() {
+    return this.month.getDaysInMonth();
+  }
+
+  getFirstWeekDay() {
+    return this.month.getFirstWeekDay();
+  }
+
+  getLastWeekDay() {
+    return this.month.getLastWeekDay();
+  }
+
   isLeapYear() {
     if (this.month.getYear() % 4 != 0) return false;
     if (this.month.getYear() % 100 != 0) return true;
