@@ -1,5 +1,3 @@
-const germany = {};
-
 const Constants = {
   MILLISECONDS_PER_DAY: 24 * 60 * 60 * 1000,
 };
@@ -19,160 +17,174 @@ const Months = {
   DECEMBER: 11,
 };
 
-germany.StateIds = Object.freeze({
-  BAVARIA: 0,
-  BADEN_WUERTTEMBERG: 1,
-  BERLIN: 2,
-  BRANDENBURG: 3,
-  BREMEN: 4,
-  HAMBURG: 5,
-  HESSE: 6,
-  LOWER_SAXONY: 7,
-  MECKLENBURG_WESTERN_POMERANIA: 8,
-  NORTH_RHINE_WESTPHALIA: 9,
-  RHINELAND_PALATINATE: 10,
-  SAARLAND: 11,
-  SAXONY: 12,
-  SAXONY_ANHALT: 13,
-  SCHLESWIG_HOLSTEIN: 14,
-  THURINGIA: 15,
-});
+function createGermanyObject() {
+  const StateIds = {
+    BAVARIA: 0,
+    BADEN_WUERTTEMBERG: 1,
+    BERLIN: 2,
+    BRANDENBURG: 3,
+    BREMEN: 4,
+    HAMBURG: 5,
+    HESSE: 6,
+    LOWER_SAXONY: 7,
+    MECKLENBURG_WESTERN_POMERANIA: 8,
+    NORTH_RHINE_WESTPHALIA: 9,
+    RHINELAND_PALATINATE: 10,
+    SAARLAND: 11,
+    SAXONY: 12,
+    SAXONY_ANHALT: 13,
+    SCHLESWIG_HOLSTEIN: 14,
+    THURINGIA: 15,
+  };
 
-germany.States = Object.freeze([
-  { id: germany.StateIds.BAVARIA, name: "Bavaria" },
-  { id: germany.StateIds.BADEN_WUERTTEMBERG, name: "Baden-Württemberg" },
-  { id: germany.StateIds.BERLIN, name: "Berlin" },
-  { id: germany.StateIds.BRANDENBURG, name: "Brandenburg" },
-  { id: germany.StateIds.BREMEN, name: "Bremen" },
-  { id: germany.StateIds.HAMBURG, name: "Hamburg" },
-  { id: germany.StateIds.HESSE, name: "Hesse" },
-  { id: germany.StateIds.LOWER_SAXONY, name: "Lower Saxony" },
-  {
-    id: germany.StateIds.MECKLENBURG_WESTERN_POMERANIA,
-    name: "Mecklenburg-Western Pomerania",
-  },
-  {
-    id: germany.StateIds.NORTH_RHINE_WESTPHALIA,
-    name: "North Rhine-Westphalia",
-  },
-  { id: germany.StateIds.RHINELAND_PALATINATE, name: "Rhineland-Palatinate" },
-  { id: germany.StateIds.SAARLAND, name: "Saarland" },
-  { id: germany.StateIds.SAXONY, name: "Saxony" },
-  { id: germany.StateIds.SAXONY_ANHALT, name: "Saxony-Anhalt" },
-  { id: germany.StateIds.SCHLESWIG_HOLSTEIN, name: "Schleswig-Holstein" },
-  { id: germany.StateIds.THURINGIA, name: "Thuringia" },
-]);
+  const States = [
+    { id: StateIds.BAVARIA, name: "Bavaria" },
+    { id: StateIds.BADEN_WUERTTEMBERG, name: "Baden-Württemberg" },
+    { id: StateIds.BERLIN, name: "Berlin" },
+    { id: StateIds.BRANDENBURG, name: "Brandenburg" },
+    { id: StateIds.BREMEN, name: "Bremen" },
+    { id: StateIds.HAMBURG, name: "Hamburg" },
+    { id: StateIds.HESSE, name: "Hesse" },
+    { id: StateIds.LOWER_SAXONY, name: "Lower Saxony" },
+    {
+      id: StateIds.MECKLENBURG_WESTERN_POMERANIA,
+      name: "Mecklenburg-Western Pomerania",
+    },
+    {
+      id: StateIds.NORTH_RHINE_WESTPHALIA,
+      name: "North Rhine-Westphalia",
+    },
+    { id: StateIds.RHINELAND_PALATINATE, name: "Rhineland-Palatinate" },
+    { id: StateIds.SAARLAND, name: "Saarland" },
+    { id: StateIds.SAXONY, name: "Saxony" },
+    { id: StateIds.SAXONY_ANHALT, name: "Saxony-Anhalt" },
+    { id: StateIds.SCHLESWIG_HOLSTEIN, name: "Schleswig-Holstein" },
+    { id: StateIds.THURINGIA, name: "Thuringia" },
+  ];
 
-germany.HolidayNames = Object.freeze({
-  NEW_YEAR: "New Year's Day",
-  LABOR_DAY: "Labor Day",
-  GERMAN_UNITY_DAY: "German Unity Day",
-  CHRISTMAS_DAY: "Christmas Day",
-  BOXING_DAY: "Boxing Day",
-  EASTER_SUNDAY: "Easter Sunday",
-  EASTER_MONDAY: "Easter Monday",
-  ASCENSION_DAY: "Ascension Day",
-  WHIT_MONDAY: "Whit Monday",
-  EPIPHANY: "Epiphany",
-  ALL_SAINTS_DAY: "All Saints' Day",
-  GOOD_FRIDAY: "Good Friday",
-  REFORMATION_DAY: "Reformation Day",
-  REPUBLIC_DAY: "Republic Day",
-  WOMENS_DAY: "Women's Day",
-  ASSUMPTION_DAY: "Assumption Day",
-  REPENTANCE_AND_PRAYER_DAY: "Day of Repentance and Prayer",
-});
+  const HolidayNames = {
+    NEW_YEAR: "New Year's Day",
+    ABOR_DAY: "Labor Day",
+    GERMAN_UNITY_DAY: "German Unity Day",
+    CHRISTMAS_DAY: "Christmas Day",
+    BOXING_DAY: "Boxing Day",
+    EASTER_SUNDAY: "Easter Sunday",
+    EASTER_MONDAY: "Easter Monday",
+    ASCENSION_DAY: "Ascension Day",
+    WHIT_MONDAY: "Whit Monday",
+    EPIPHANY: "Epiphany",
+    ALL_SAINTS_DAY: "All Saints' Day",
+    GOOD_FRIDAY: "Good Friday",
+    REFORMATION_DAY: "Reformation Day",
+    REPUBLIC_DAY: "Republic Day",
+    WOMENS_DAY: "Women's Day",
+    ASSUMPTION_DAY: "Assumption Day",
+    REPENTANCE_AND_PRAYER_DAY: "Day of Repentance and Prayer",
+  };
+  const GeneralHolidays = [
+    { month: Months.JANUARY, day: 1, name: HolidayNames.NEW_YEAR },
+    { month: Months.MAY, day: 1, name: HolidayNames.LABOR_DAY },
+    {
+      month: Months.OCTOBER,
+      day: 3,
+      name: HolidayNames.GERMAN_UNITY_DAY,
+    },
+    {
+      month: Months.DECEMBER,
+      day: 25,
+      name: HolidayNames.CHRISTMAS_DAY,
+    },
+    { month: Months.DECEMBER, day: 26, name: HolidayNames.BOXING_DAY },
+    { easterOffset: 0, name: HolidayNames.EASTER_SUNDAY },
+    { easterOffset: 1, name: HolidayNames.EASTER_MONDAY },
+    { easterOffset: -2, name: HolidayNames.GOOD_FRIDAY },
+    { easterOffset: 39, name: HolidayNames.ASCENSION_DAY },
+    { easterOffset: 50, name: HolidayNames.WHIT_MONDAY },
+  ];
 
-germany.GeneralHolidays = Object.freeze([
-  { month: Months.JANUARY, day: 1, name: germany.HolidayNames.NEW_YEAR },
-  { month: Months.MAY, day: 1, name: germany.HolidayNames.LABOR_DAY },
-  {
-    month: Months.OCTOBER,
-    day: 3,
-    name: germany.HolidayNames.GERMAN_UNITY_DAY,
-  },
-  { month: Months.DECEMBER, day: 25, name: germany.HolidayNames.CHRISTMAS_DAY },
-  { month: Months.DECEMBER, day: 26, name: germany.HolidayNames.BOXING_DAY },
-  { easterOffset: 0, name: germany.HolidayNames.EASTER_SUNDAY },
-  { easterOffset: 1, name: germany.HolidayNames.EASTER_MONDAY },
-  { easterOffset: -2, name: germany.HolidayNames.GOOD_FRIDAY },
-  { easterOffset: 39, name: germany.HolidayNames.ASCENSION_DAY },
-  { easterOffset: 50, name: germany.HolidayNames.WHIT_MONDAY },
-]);
+  const StateHolidays = [
+    {
+      states: [
+        StateIds.BAVARIA,
+        StateIds.BADEN_WUERTTEMBERG,
+        StateIds.NORTH_RHINE_WESTPHALIA,
+        StateIds.RHINELAND_PALATINATE,
+        StateIds.SAARLAND,
+      ],
+      holidays: [
+        {
+          month: Months.NOVEMBER,
+          day: 1,
+          name: HolidayNames.ALL_SAINTS_DAY,
+        },
+      ],
+    },
+    {
+      states: [
+        StateIds.BAVARIA,
+        StateIds.BADEN_WUERTTEMBERG,
+        StateIds.SAXONY_ANHALT,
+      ],
+      holidays: [
+        { month: Months.JANUARY, day: 6, name: HolidayNames.EPIPHANY },
+      ],
+    },
+    {
+      states: [
+        StateIds.BRANDENBURG,
+        StateIds.BREMEN,
+        StateIds.HAMBURG,
+        StateIds.LOWER_SAXONY,
+        StateIds.MECKLENBURG_WESTERN_POMERANIA,
+        StateIds.SAXONY,
+        StateIds.SAXONY_ANHALT,
+        StateIds.SCHLESWIG_HOLSTEIN,
+        StateIds.THURINGIA,
+      ],
+      holidays: [
+        {
+          month: Months.OCTOBER,
+          day: 31,
+          name: HolidayNames.REFORMATION_DAY,
+        },
+      ],
+    },
+    {
+      states: [StateIds.BERLIN],
+      holidays: [
+        { month: Months.MARCH, day: 8, name: HolidayNames.WOMENS_DAY },
+      ],
+    },
+    {
+      states: [StateIds.SAARLAND],
+      holidays: [
+        {
+          month: Months.AUGUST,
+          day: 15,
+          name: HolidayNames.ASSUMPTION_DAY,
+        },
+      ],
+    },
+    {
+      states: [StateIds.SAXONY],
+      holidays: [
+        {
+          month: Months.NOVEMBER,
+          name: HolidayNames.REPENTANCE_AND_PRAYER_DAY,
+        },
+      ],
+    },
+  ];
+  return {
+    StateIds,
+    HolidayNames,
+    States,
+    GeneralHolidays,
+    StateHolidays,
+  };
+}
 
-germany.StateHolidays = Object.freeze([
-  {
-    states: [
-      germany.StateIds.BAVARIA,
-      germany.StateIds.BADEN_WUERTTEMBERG,
-      germany.StateIds.NORTH_RHINE_WESTPHALIA,
-      germany.StateIds.RHINELAND_PALATINATE,
-      germany.StateIds.SAARLAND,
-    ],
-    holidays: [
-      {
-        month: Months.NOVEMBER,
-        day: 1,
-        name: germany.HolidayNames.ALL_SAINTS_DAY,
-      },
-    ],
-  },
-  {
-    states: [
-      germany.StateIds.BAVARIA,
-      germany.StateIds.BADEN_WUERTTEMBERG,
-      germany.StateIds.SAXONY_ANHALT,
-    ],
-    holidays: [
-      { month: Months.JANUARY, day: 6, name: germany.HolidayNames.EPIPHANY },
-    ],
-  },
-  {
-    states: [
-      germany.StateIds.BRANDENBURG,
-      germany.StateIds.BREMEN,
-      germany.StateIds.HAMBURG,
-      germany.StateIds.LOWER_SAXONY,
-      germany.StateIds.MECKLENBURG_WESTERN_POMERANIA,
-      germany.StateIds.SAXONY,
-      germany.StateIds.SAXONY_ANHALT,
-      germany.StateIds.SCHLESWIG_HOLSTEIN,
-      germany.StateIds.THURINGIA,
-    ],
-    holidays: [
-      {
-        month: Months.OCTOBER,
-        day: 31,
-        name: germany.HolidayNames.REFORMATION_DAY,
-      },
-    ],
-  },
-  {
-    states: [germany.StateIds.BERLIN],
-    holidays: [
-      { month: Months.MARCH, day: 8, name: germany.HolidayNames.WOMENS_DAY },
-    ],
-  },
-  {
-    states: [germany.StateIds.SAARLAND],
-    holidays: [
-      {
-        month: Months.AUGUST,
-        day: 15,
-        name: germany.HolidayNames.ASSUMPTION_DAY,
-      },
-    ],
-  },
-  {
-    states: [germany.StateIds.SAXONY],
-    holidays: [
-      {
-        month: Months.NOVEMBER,
-        name: germany.HolidayNames.REPENTANCE_AND_PRAYER_DAY,
-      },
-    ],
-  },
-]);
+const Germany = createGermanyObject();
 
 class GermanHolidayCalculator {
   constructor(year, stateId) {
@@ -180,7 +192,7 @@ class GermanHolidayCalculator {
       date = new Date();
       year = date.getFullYear();
     }
-    this.stateId = stateId || germany.StateIds.BAVARIA;
+    this.stateId = stateId || Germany.StateIds.BAVARIA;
     this.year = year;
     this.init();
   }
@@ -218,11 +230,11 @@ class GermanHolidayCalculator {
   }
 
   addGeneralHolidays() {
-    for (const holiday of germany.GeneralHolidays) this.addHoliday(holiday);
+    for (const holiday of Germany.GeneralHolidays) this.addHoliday(holiday);
   }
 
   addStateHolidays() {
-    germany.StateHolidays.forEach((entry) => {
+    Germany.StateHolidays.forEach((entry) => {
       if (entry.states.includes(this.stateId)) {
         for (const holiday of entry.holidays) this.addHoliday(holiday);
       }
@@ -242,7 +254,7 @@ class GermanHolidayCalculator {
         this.easterSunday.getMonth(),
         this.easterSunday.getDate() + holiday.easterOffset
       );
-    if (holiday.name == germany.HolidayNames.REPENTANCE_AND_PRAYER_DAY)
+    if (holiday.name == Germany.HolidayNames.REPENTANCE_AND_PRAYER_DAY)
       return this.calculateRepentanceAndPrayerDay();
     return new Date(this.year, holiday.month, holiday.day);
   }
@@ -426,7 +438,7 @@ function init() {
 
   const holidayCalculator = new GermanHolidayCalculator(
     today.getFullYear(),
-    germany.StateIds.HESSE
+    Germany.StateIds.HESSE
   );
   const calendar = new Calendar(new Date(), holidayCalculator);
 
@@ -476,7 +488,7 @@ if (typeof module !== "undefined" && module.exports) {
     GermanHolidayCalculator,
     Month,
     Calendar,
-    germany,
+    Germany,
     Months,
     Constants,
   };
