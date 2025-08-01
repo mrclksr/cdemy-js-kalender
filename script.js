@@ -198,6 +198,7 @@ class GermanHolidayCalculator {
   }
 
   setYear(year) {
+    if (year == this.year) return;
     this.year = year;
     this.init();
   }
