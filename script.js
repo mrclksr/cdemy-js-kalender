@@ -303,7 +303,8 @@ class GermanHolidayCalculator {
 
 class Month {
   constructor(month) {
-    this.month = month;
+    if (!month || month === undefined) this.month = new Date();
+    else this.month = month;
     this.init();
   }
 
@@ -388,7 +389,9 @@ class Calendar {
 
   getDaysTillEndOfYear(day) {
     return (
-      365 - this.getDaysSinceStartOfYear(day) + (this.isLeapYear(day.getFullYear()) ? 1 : 0)
+      365 -
+      this.getDaysSinceStartOfYear(day) +
+      (this.isLeapYear(day.getFullYear()) ? 1 : 0)
     );
   }
 
@@ -471,13 +474,21 @@ function init() {
     month: "long",
   });
   const leapYearStr =
-    " (der " + (calendar.getDaysSinceStartOfYear(today) + 1) + ". Tag in Schaltjahren)";
+    " (der " +
+    (calendar.getDaysSinceStartOfYear(today) + 1) +
+    ". Tag in Schaltjahren)";
 
   const replacements = [
     { query: '[date="numeric-date"]', val: numericDate },
     { query: '[date="day-month"]', val: dayMonthStr },
-    { query: '[count="days-since"]', val: calendar.getDaysSinceStartOfYear(today) },
-    { query: '[count="days-remain"]', val: calendar.getDaysTillEndOfYear(today) },
+    {
+      query: '[count="days-since"]',
+      val: calendar.getDaysSinceStartOfYear(today),
+    },
+    {
+      query: '[count="days-remain"]',
+      val: calendar.getDaysTillEndOfYear(today),
+    },
     { query: '[date="day-of-week"]', val: weekDay },
     { query: '[date="nth-day-of-week"]', val: nthDayOfWeek },
   ];

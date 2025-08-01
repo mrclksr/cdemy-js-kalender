@@ -215,6 +215,12 @@ describe('Month', () => {
     month = new Month(new Date(2025, 0, 15)); // January 2025
   });
 
+  test('should initialize correctly with no month provided', () => {
+    month = new Month();
+    let today = new Date();
+    expect(month.getYear()).toBe(today.getFullYear());
+  });
+
   test('should initialize correctly', () => {
     expect(month.daysInMonth).toBe(31);
     expect(month.firstWeekday).toBe(3); // January 1, 2025 is a Wednesday
