@@ -275,7 +275,7 @@ class GermanHolidayCalculator {
     const startDate = new Date(this.year, Months.NOVEMBER, 16);
     // Make Monday day 0, Tuesday  1, etc.
     const startDateShifted = (startDate.getDay() + 6) % 7;
-    if (startDateShifted < wednesday) offset = wednesday - startDateShifted;
+    if (startDateShifted <= wednesday) offset = wednesday - startDateShifted;
     else offset = 7 - (startDateShifted - wednesday);
     return new Date(this.year, Months.NOVEMBER, 16 + offset);
   }
