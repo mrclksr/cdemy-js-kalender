@@ -435,13 +435,15 @@ function buildCalendar() {}
 
 function init() {
   const today = new Date();
-  const weekDay = today.toLocaleDateString("de-DE", { weekday: "long"});
-  const nthDayOfWeek = (today.getDay() + 6) % 7 + 1;
+
   const holidayCalculator = new GermanHolidayCalculator(
     today.getFullYear(),
     germany.StateIds.HESSEN
   );
   const calendar = new Calendar(new Date(), holidayCalculator);
+
+  const weekDay = today.toLocaleDateString("de-DE", { weekday: "long" });
+  const nthDayOfWeek = ((today.getDay() + 6) % 7) + 1;
   const numericDate = today.toLocaleDateString("de-DE", {
     day: "2-digit",
     month: "2-digit",
@@ -464,7 +466,7 @@ function init() {
     { query: '[count="days-since"]', val: calendar.dayOfYear(today) },
     { query: '[count="days-remain"]', val: calendar.daysTillEndOfYear(today) },
     { query: '[date="day-of-week"]', val: weekDay },
-    { query: '[date="nth-day-of-week"]', val: nthDayOfWeek }
+    { query: '[date="nth-day-of-week"]', val: nthDayOfWeek },
   ];
 
   for (r of replacements) {
