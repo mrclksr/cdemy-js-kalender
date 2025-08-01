@@ -431,8 +431,6 @@ class Calendar {
   }
 }
 
-function buildCalendar() {}
-
 function init() {
   const today = new Date();
 
