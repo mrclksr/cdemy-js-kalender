@@ -190,21 +190,21 @@ class GermanHolidayCalculator {
     }
     this.stateId = stateId || Germany.StateIds.BAVARIA;
     this.year = year;
-    this.init();
+    this.#init();
   }
 
   setYear(year) {
     if (year == this.year) return;
     this.year = year;
-    this.init();
+    this.#init();
   }
 
   setStateId(stateId) {
     this.stateId = stateId;
-    this.init();
+    this.#init();
   }
 
-  init() {
+  #init() {
     this.easterSunday = this.calculateEasterSunday(this.year);
     this.holidays = [];
     this.addHolidays();
@@ -301,7 +301,7 @@ class Month {
   constructor(month) {
     if (!month || month === undefined) month = new Date();
     this.month = month;
-    this.init();
+    this.#init();
   }
 
   getYear() {
@@ -322,15 +322,15 @@ class Month {
 
   choosePrevMonth() {
     this.month = new Date(this.month.getFullYear(), this.month.getMonth() - 1);
-    this.init();
+    this.#init();
   }
 
   chooseNextMonth() {
     this.month = new Date(this.month.getFullYear(), this.month.getMonth() + 1);
-    this.init();
+    this.#init();
   }
 
-  init() {
+  #init() {
     const firstDay = new Date(
       this.month.getFullYear(),
       this.month.getMonth(),
@@ -358,7 +358,8 @@ class Month {
 
 class Calendar {
   constructor(month, holidayCalculator) {
-    this.initMonth(month);
+    this.#initMonth(month);
+    this.#bindMonthMethods();
     this.setHolidayCalculator(holidayCalculator);
   }
 
@@ -368,8 +369,58 @@ class Calendar {
   }
 
   chooseNextMonth() {
-    this.month.choosePrevMonth();
+    this.month.chooseNextMonth();
     this.holidayCalculator.setYear(this.month.getYear());
+  }
+
+  /*
+   * 
+   * \begin{align*}
+   * &m = month - 1 \\
+   * &y = year \\
+   * &a = \left\lfloor (3 - (y\mod{(4)}) ) / 3\right\rfloor \\
+   * &b = \left\lfloor y / 4\right\rfloor \\
+   * &c = \left\lfloor(24 - (b\mod{(25)})) / 24\right\rfloor \\
+   * &d = \left\lfloor(99 - (b\mod{(100)})) /99\right\rfloor \\
+   * &l = a(cd + 1 - c) \\
+   * &e = \left\lfloor m / 7\right\rfloor \\
+   * &f = m\mod{(7)} \\
+   * &g = \left\lfloor f / 2\right\rfloor \\
+   * &h = f\mod{(2)} \\
+   * &j = g - \left\lfloor g / 2\right\rfloor \\
+   * &k = j - \left\lfloor j / 2\right\rfloor \\
+   * &i = 212e + 61g + 31h -2k(1 - e) + l + day \\
+   * \end{align*}
+   */
+  getDaysSinceStartOfYear2(day, month) {
+    let m = month - 1;
+    let y = this.month.getYear();
+    let a = Math.floor((3 - (y % 4)) / 3);
+    let b = Math.floor(y / 4);
+    let c = Math.floor((24 - (b % 25)) / 24);
+    let d = Math.floor((99 - (b % 100)) / 99);
+    let l = a * (c * d + 1 - c);
+    let e = Math.floor(m / 7);
+    let f = m % 7;
+    let g = Math.floor(f / 2);
+    let h = f % 2;
+    let j = g - Math.floor(g / 2);
+    let k = j - Math.floor(j / 2);
+    let i = 212 * e + 61 * g + 31 * h + (1 - e) * k * (-2) + l + day;
+    console.log(i);
+    return i;
+  }
+  
+  getDaysSinceStartOfYear3(day, month) {
+    let m = month - 1;
+    let e = Math.floor(m / 7);
+    let f = m % 7;
+    let g = f % 2;
+    let h = Math.floor(f / 2);
+    let days = e * 212 + h * 61 + g * 31 + day.getDate() + (this.isLeapYear() ? 1 : 0);
+    if (h > 0) days -= 2;
+    console.log(days);
+    return days;
   }
 
   getDaysSinceStartOfYear(day) {
@@ -395,18 +446,6 @@ class Calendar {
   getHolidayName(day) {
     if (!this.holidayCalculator) return "";
     return this.holidayCalculator.getHoliday(day);
-  }
-
-  getDaysInMonth() {
-    return this.month.getDaysInMonth();
-  }
-
-  getFirstWeekDay() {
-    return this.month.getFirstWeekDay();
-  }
-
-  getLastWeekDay() {
-    return this.month.getLastWeekDay();
   }
 
   isToday(day) {
@@ -435,25 +474,34 @@ class Calendar {
   }
 
   setMonth(month) {
-    this.initMonth(month);
+    this.#initMonth(month);
     this.holidayCalculator.setYear(this.month.getYear());
   }
 
-  initMonth(month) {
+  #initMonth(month) {
     if (!month || month === undefined) month = new Date();
     this.date = month;
     this.month = new Month(month);
+  }
+
+  #bindMonthMethods() {
+    ["getDaysInMonth", "getFirstWeekDay", "getLastWeekDay"].forEach(
+      (method) => {
+        this[method] = this.month[method].bind(this.month);
+      }
+    );
   }
 }
 
 function init() {
   const today = new Date();
-
   const holidayCalculator = new GermanHolidayCalculator(
     today.getFullYear(),
     Germany.StateIds.HESSE
   );
   const calendar = new Calendar(new Date(), holidayCalculator);
+  calendar.getDaysSinceStartOfYear2(5, 11);
+  calendar.getDaysSinceStartOfYear2(5, 11);
 
   const weekDay = today.toLocaleDateString("de-DE", { weekday: "long" });
   const nthDayOfWeek = ((today.getDay() + 6) % 7) + 1;
