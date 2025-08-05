@@ -445,6 +445,14 @@ class Calendar {
     return nextMonth.getDate();
   }
 
+  getLeadingWeekDaysFromPrevMonth() {
+    return (this.month.getFirstWeekDay() + 6) % 7;
+  }
+
+  getTrailingWeekDaysFromNextMonth() {
+    return 6 - (this.month.getLastWeekDay() + 6) % 7
+  }
+
   getDaysSinceStartOfYear(day) {
     let days = 0;
     let leapDay = this.isLeapYear() ? 1 : 0;

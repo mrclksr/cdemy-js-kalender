@@ -319,7 +319,19 @@ describe('Calendar', () => {
     expect(leapYearCalendar.getDaysSinceStartOfYear(leapYearDay)).toBe(214);
   });
 
-test('should calculate remaining days of year correctly', () => {
+  test('Should calculate leading week days of previous month correctly', () => {
+    const aug = new Date(2025, 7);
+    const calendar = new Calendar(aug, holidayCalculator);
+    expect(calendar.getLeadingWeekDaysFromPrevMonth()).toBe(4);
+  });
+
+  test('Should calculate trailing week days of next month correctly', () => {
+    const aug = new Date(2025, 7);
+    const calendar = new Calendar(aug, holidayCalculator);
+    expect(calendar.getTrailingWeekDaysFromNextMonth()).toBe(0);
+  });
+  
+  test('should calculate remaining days of year correctly', () => {
     const jul31 = new Date(2025, 6, 31);
     const oct8 = new Date(2025, 9, 8);
     expect(calendar.getDaysTillEndOfYear(jul31)).toBe(153);
