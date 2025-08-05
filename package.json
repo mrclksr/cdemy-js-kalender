@@ -8,7 +8,12 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage"
   },
-  "keywords": ["germany", "holidays", "calendar", "calculator"],
+  "keywords": [
+    "germany",
+    "holidays",
+    "calendar",
+    "calculator"
+  ],
   "author": "",
   "license": "MIT",
   "devDependencies": {
@@ -21,6 +26,13 @@
       "!node_modules/**"
     ],
     "coverageDirectory": "coverage",
-    "coverageReporters": ["text", "lcov", "html"]
+    "coverageReporters": [
+      "text",
+      "lcov",
+      "html"
+    ]
+  },
+  "dependencies": {
+    "selenium-webdriver": "^4.34.0"
   }
 }

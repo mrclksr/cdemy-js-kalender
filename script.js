@@ -185,7 +185,7 @@ const Germany = createGermanyObject();
 class GermanHolidayCalculator {
   constructor(year, stateId) {
     if (year === undefined || !year) {
-      date = new Date();
+      let date = new Date();
       year = date.getFullYear();
     }
     this.stateId = stateId || Germany.StateIds.BAVARIA;
