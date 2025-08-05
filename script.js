@@ -378,7 +378,7 @@ class Calendar {
   }
 
   /*
-   * 
+   *
    * \begin{align*}
    * &m = month - 1 \\
    * &y = year \\
@@ -410,23 +410,24 @@ class Calendar {
     let h = f % 2;
     let j = g - Math.floor(g / 2);
     let k = j - Math.floor(j / 2);
-    let i = 212 * e + 61 * g + 31 * h + (1 - e) * k * (-2) + l + day;
+    let i = 212 * e + 61 * g + 31 * h + (1 - e) * k * -2 + l + day;
     console.log(i);
     return i;
   }
-  
+
   getDaysSinceStartOfYear3(day, month) {
     let m = month - 1;
     let e = Math.floor(m / 7);
     let f = m % 7;
     let g = f % 2;
     let h = Math.floor(f / 2);
-    let days = e * 212 + h * 61 + g * 31 + day.getDate() + (this.isLeapYear() ? 1 : 0);
+    let days =
+      e * 212 + h * 61 + g * 31 + day.getDate() + (this.isLeapYear() ? 1 : 0);
     if (h > 0) days -= 2;
     console.log(days);
     return days;
   }
-  
+
   getYear() {
     return this.month.getYear();
   }
@@ -434,14 +435,22 @@ class Calendar {
   getMonth() {
     return this.month.getMonth();
   }
-  
+
   getPrevMonthDays() {
-    let prevMonth = new Date(this.month.getYear(), this.month.getMonth() - 1, 0);
+    let prevMonth = new Date(
+      this.month.getYear(),
+      this.month.getMonth() - 1,
+      0
+    );
     return prevMonth.getDate();
   }
 
   getNextMonthDays() {
-    let nextMonth = new Date(this.month.getYear(), this.month.getMonth() + 1, 0);
+    let nextMonth = new Date(
+      this.month.getYear(),
+      this.month.getMonth() + 1,
+      0
+    );
     return nextMonth.getDate();
   }
 
@@ -450,7 +459,7 @@ class Calendar {
   }
 
   getTrailingWeekDaysFromNextMonth() {
-    return 6 - (this.month.getLastWeekDay() + 6) % 7
+    return 6 - ((this.month.getLastWeekDay() + 6) % 7);
   }
 
   getDaysSinceStartOfYear(day) {
@@ -523,6 +532,55 @@ class Calendar {
   }
 }
 
+class CalendarPage {
+  constructor(calendar) {
+    this.calendar = calendar;
+    this.cells = [];
+  }
+
+  build() {
+    this.#addLeadingWeekDays();
+    this.#addDaysOfMonth();
+    this.#addTrailingWeekDays();
+  }
+
+  #addLeadingWeekDays() {
+    for (let i = this.calendar.getLeadingWeekDaysFromPrevMonth() - 1; i >= 0; i--) {
+      let prevMonthDay = this.calendar.getPrevMonthDays() - i + 1;
+      this.#addOverlappingCell(prevMonthDay);
+    }
+  }
+  
+  #addTrailingWeekDays() {
+    for (let i = 0; i < this.calendar.getTrailingWeekDaysFromNextMonth(); i++) {
+      let nextMonthDay = i + 1;
+      this.#addOverlappingCell(nextMonthDay);
+    }
+  }
+
+  #addDaysOfMonth() {
+    for (let i = 0; i < this.calendar.getDaysInMonth(); i++) {
+      this.#addCell(i + 1);
+    }
+  }
+
+  #addOverlappingCell(day) {
+    this.cells.push({day: day, overlapping: true});
+  }
+
+  #addCell(day) {
+    this.cells.push({day: day, overlapping: false});
+  }
+
+  #calculateNoOfCells() {
+    return (
+      this.calendar.getDaysInMonth() +
+      this.calendar.getLeadingWeekDaysFromPrevMonth() +
+      this.calendar.getTrailingWeekDaysFromNextMonth()
+    );
+  }
+}
+
 class CalendarBuilder {
   constructor(calendar, elementID) {
     this.calendar = calendar;
@@ -531,34 +589,35 @@ class CalendarBuilder {
 
   build() {
     let tbody = this.#getCalendarBody();
-    if (!tbody)
-      return false;
-    tbody.innerHTML = '';
+    if (!tbody) return false;
+    tbody.innerHTML = "";
     let row = 0;
-    while (this.#addRow(tbody, row))
-      row++;
+    while (this.#addRow(tbody, row)) row++;
     console.log(tbody);
   }
-  
+
   #addRow(tbody, row) {
-    if (7 * row + 6 > this.calendar.getDaysInMonth())
-      return false;
-    const tr = document.createElement('tr');
+    if (7 * row + 6 > this.calendar.getDaysInMonth()) return false;
+    const tr = document.createElement("tr");
     tbody.appendChild(tr);
     for (let c = 0; c < 7; c++) {
-      const day = new Date(this.calendar.getYear(), this.calendar.getMonth(), 7 * row + c + 1);
-      const td = document.createElement('td');
+      const day = new Date(
+        this.calendar.getYear(),
+        this.calendar.getMonth(),
+        7 * row + c + 1
+      );
+      const td = document.createElement("td");
       if (c < (this.calendar.getFirstWeekDay() + 6) % 7) {
-        td.className = 'prev-month';
+        td.className = "prev-month";
         td.innerHTML = this.calendar.getPrevMonthDays() - c;
       } else if (c > (this.calendar.getLastWeekDay() + 6) % 7) {
-        td.className = 'next-month';
+        td.className = "next-month";
       } else if (this.calendar.isToday(day)) {
-        td.id = 'today';
+        td.id = "today";
       }
       td.innerHTML = 7 * row + c + 1;
       if (this.calendar.isHoliday(day)) {
-        td.classList.add('holiday');
+        td.classList.add("holiday");
       }
       tr.appendChild(td);
     }
@@ -568,19 +627,19 @@ class CalendarBuilder {
   #getCalendarBody() {
     let root = document.getElementById(this.elementID);
     if (!root) {
-      alert('Fatal: Calendar with ID ' + this.elementID + ' not found');
+      alert("Fatal: Calendar with ID " + this.elementID + " not found");
       return null;
     }
-    let tbody = root.getElementsByTagName('tbody');
+    let tbody = root.getElementsByTagName("tbody");
     if (!tbody) {
-      alert('Fatal: <tbody> not found in calendar');
+      alert("Fatal: <tbody> not found in calendar");
       return null;
     }
     return tbody[0];
   }
 
   #buildHeader() {
-    return;  
+    return;
   }
 }
 
@@ -593,7 +652,11 @@ function init() {
   const calendar = new Calendar(new Date(), holidayCalculator);
   calendar.getDaysSinceStartOfYear2(5, 11);
   calendar.getDaysSinceStartOfYear2(5, 11);
-  const calendarBuilder = new CalendarBuilder(calendar, 'calendar');
+  const calendarPage = new CalendarPage(calendar);
+  calendarPage.build();
+  console.log(calendarPage.cells);
+  return;
+  const calendarBuilder = new CalendarBuilder(calendar, "calendar");
   calendarBuilder.build();
 
   const weekDay = today.toLocaleDateString("de-DE", { weekday: "long" });
@@ -644,7 +707,6 @@ function init() {
   e = document.getElementById("days-with-leap-text");
   if (e) e.innerHTML = !calendar.isLeapYear(today) ? leapYearStr : "";
 }
-
 
 if (typeof module !== "undefined" && module.exports) {
   module.exports = {
