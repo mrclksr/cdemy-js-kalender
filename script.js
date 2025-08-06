@@ -439,7 +439,7 @@ class Calendar {
   getPrevMonthDays() {
     let prevMonth = new Date(
       this.month.getYear(),
-      this.month.getMonth() - 1,
+      this.month.getMonth(),
       0
     );
     return prevMonth.getDate();
@@ -546,7 +546,7 @@ class CalendarPage {
 
   #addLeadingWeekDays() {
     for (let i = this.calendar.getLeadingWeekDaysFromPrevMonth() - 1; i >= 0; i--) {
-      let prevMonthDay = this.calendar.getPrevMonthDays() - i + 1;
+      let prevMonthDay = this.calendar.getPrevMonthDays() - i;
       this.#addOverlappingCell(prevMonthDay);
     }
   }
