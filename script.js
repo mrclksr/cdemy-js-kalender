@@ -189,7 +189,9 @@ class GermanHolidayCalculator {
       let date = new Date();
       year = date.getFullYear();
     }
-    this.stateId = stateId || Germany.StateIds.BAVARIA;
+    if (!stateId)
+      stateId = Germany.StateIds.BAVARIA;
+    this.stateId = stateId;
     this.year = year;
     this.#init();
   }
@@ -209,6 +211,7 @@ class GermanHolidayCalculator {
     this.easterSunday = this.calculateEasterSunday(this.year);
     this.holidays = [];
     this.addHolidays();
+    console.log(this.holidays);
   }
 
   addHolidays() {
@@ -230,11 +233,23 @@ class GermanHolidayCalculator {
   addGeneralHolidays() {
     for (const holiday of Germany.GeneralHolidays) this.addHoliday(holiday);
   }
+  getHolidaysByStateId(stateId) {
+    return Germany.StateHolidays
+     .filter(item => item.states.includes(stateId))
+     .flatMap(item => item.holidays);
+  }
 
   addStateHolidays() {
+    console.log(this.getHolidaysByStateId(this.stateId));
+    this.holidays.push(this.getHolidaysByStateId(this.stateId));
+    console.log(this.holidays);
     Germany.StateHolidays.forEach((entry) => {
       if (entry.states.includes(this.stateId)) {
-        for (const holiday of entry.holidays) this.addHoliday(holiday);
+        console.log('StateID --> ', this.stateId);
+        for (const holiday of entry.holidays) {
+          console.log(holiday);
+          this.addHoliday(holiday);
+        }
       }
     });
   }
@@ -681,6 +696,32 @@ class Page {
       'click', 
       (event) => this.onclickNext(event)
     );
+    this.createStateList();
+  }
+
+  createStateList() {
+    let selectElement = document.getElementById('states');
+    for (let i of Germany.States) {
+      const opt = document.createElement('option');
+      opt.textContent = i.name;
+      opt.value = i.name;
+      selectElement.appendChild(opt);
+    }
+    selectElement.addEventListener(
+      'change', 
+      (event) => this.changeState(event)
+    );
+    console.log(selectElement);
+  }
+
+  changeState(event) {
+    const id = Germany.States.find(r => r.name == event.target.value);
+    if (id !== undefined) {
+      this.holidayCalculator.setStateId(id);
+      this.htmlWriter.build();
+      console.log('New state:', event.target.value);
+    }
+    
   }
 
   show() {
@@ -689,7 +730,6 @@ class Page {
   }
 
   onclickNext(e) {
-    console.log('hi');
     this.calendar.chooseNextMonth();
     this.htmlWriter.build();
     this.updateTexts();
