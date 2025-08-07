@@ -91,6 +91,7 @@ function createGermanyObject() {
       name: HolidayNames.CHRISTMAS_DAY,
     },
     { month: Months.DECEMBER, day: 26, name: HolidayNames.BOXING_DAY },
+    { month: Months.AUGUST, day: 6, name: 'Andres Geburtstag'},
     { easterOffset: 0, name: HolidayNames.EASTER_SUNDAY },
     { easterOffset: 1, name: HolidayNames.EASTER_MONDAY },
     { easterOffset: -2, name: HolidayNames.GOOD_FRIDAY },
@@ -437,11 +438,7 @@ class Calendar {
   }
 
   getPrevMonthDays() {
-    let prevMonth = new Date(
-      this.month.getYear(),
-      this.month.getMonth(),
-      0
-    );
+    let prevMonth = new Date(this.month.getYear(), this.month.getMonth(), 0);
     return prevMonth.getDate();
   }
 
@@ -539,18 +536,27 @@ class CalendarPage {
   }
 
   build() {
+    this.cells = [];
     this.#addLeadingWeekDays();
     this.#addDaysOfMonth();
     this.#addTrailingWeekDays();
   }
 
+  getCellData() {
+    return this.cells;
+  }
+
   #addLeadingWeekDays() {
-    for (let i = this.calendar.getLeadingWeekDaysFromPrevMonth() - 1; i >= 0; i--) {
+    for (
+      let i = this.calendar.getLeadingWeekDaysFromPrevMonth() - 1;
+      i >= 0;
+      i--
+    ) {
       let prevMonthDay = this.calendar.getPrevMonthDays() - i;
       this.#addOverlappingCell(prevMonthDay);
     }
   }
-  
+
   #addTrailingWeekDays() {
     for (let i = 0; i < this.calendar.getTrailingWeekDaysFromNextMonth(); i++) {
       let nextMonthDay = i + 1;
@@ -565,11 +571,23 @@ class CalendarPage {
   }
 
   #addOverlappingCell(day) {
-    this.cells.push({day: day, overlapping: true});
+    let cell = this.#createCell(day);
+    cell.overlapping = true;
+    this.cells.push(cell);
   }
 
   #addCell(day) {
-    this.cells.push({day: day, overlapping: false});
+    this.cells.push(this.#createCell(day));
+  }
+  
+  #createCell(day) {
+    const date = new Date(this.calendar.getYear(), this.calendar.getMonth(), day);
+    return {
+      day: day,
+      overlapping: false,
+      isToday: this.calendar.isToday(date),
+      isHoliday: this.calendar.isHoliday(date),
+    };
   }
 
   #calculateNoOfCells() {
@@ -581,53 +599,50 @@ class CalendarPage {
   }
 }
 
-class CalendarBuilder {
-  constructor(calendar, elementID) {
-    this.calendar = calendar;
-    this.elementID = elementID;
+class HTMLWriter {
+  constructor(calendarPage, tableID) {
+    this.calculatePage = calendarPage;
+    this.tableID = tableID;
   }
 
   build() {
-    let tbody = this.#getCalendarBody();
-    if (!tbody) return false;
-    tbody.innerHTML = "";
-    let row = 0;
-    while (this.#addRow(tbody, row)) row++;
-    console.log(tbody);
-  }
+    let weekDay = 0;
+    let row;
 
-  #addRow(tbody, row) {
-    if (7 * row + 6 > this.calendar.getDaysInMonth()) return false;
-    const tr = document.createElement("tr");
-    tbody.appendChild(tr);
-    for (let c = 0; c < 7; c++) {
-      const day = new Date(
-        this.calendar.getYear(),
-        this.calendar.getMonth(),
-        7 * row + c + 1
-      );
-      const td = document.createElement("td");
-      if (c < (this.calendar.getFirstWeekDay() + 6) % 7) {
-        td.className = "prev-month";
-        td.innerHTML = this.calendar.getPrevMonthDays() - c;
-      } else if (c > (this.calendar.getLastWeekDay() + 6) % 7) {
-        td.className = "next-month";
-      } else if (this.calendar.isToday(day)) {
-        td.id = "today";
-      }
-      td.innerHTML = 7 * row + c + 1;
-      if (this.calendar.isHoliday(day)) {
-        td.classList.add("holiday");
-      }
-      tr.appendChild(td);
+    this.calculatePage.build();
+    const body = this.#getTableBody();
+    const data = this.calculatePage.getCellData();
+    body.innerHTML = "";
+    for (let c of data) {
+      if (weekDay++ % 7 == 0)
+        row = this.#addRow(body);
+      this.#addCell(row, c);
     }
-    return true;
   }
 
-  #getCalendarBody() {
-    let root = document.getElementById(this.elementID);
+  #addRow(parent) {
+    const tr = document.createElement("tr");
+    parent.appendChild(tr);
+    return tr;
+  }
+
+  #addCell(parent, cellData) {
+    const td = document.createElement("td");
+    parent.appendChild(td);
+    td.innerHTML = cellData.day;
+    if (cellData.isToday)
+      td.id = 'today';
+    if (cellData.isHoliday)
+      td.classList.add('holiday');
+    if (cellData.overlapping)
+      td.classList.add('other_month');
+    td.classList.add()
+  }
+
+  #getTableBody() {
+    let root = document.getElementById(this.tableID);
     if (!root) {
-      alert("Fatal: Calendar with ID " + this.elementID + " not found");
+      alert("Fatal: Calendar with ID " + this.tableID + " not found");
       return null;
     }
     let tbody = root.getElementsByTagName("tbody");
@@ -637,10 +652,6 @@ class CalendarBuilder {
     }
     return tbody[0];
   }
-
-  #buildHeader() {
-    return;
-  }
 }
 
 function init() {
@@ -649,11 +660,11 @@ function init() {
     today.getFullYear(),
     Germany.StateIds.HESSE
   );
-  const calendar = new Calendar(new Date(), holidayCalculator);
-  calendar.getDaysSinceStartOfYear2(5, 11);
-  calendar.getDaysSinceStartOfYear2(5, 11);
+  const calendar = new Calendar(new Date(2025, 7, 1), holidayCalculator);
   const calendarPage = new CalendarPage(calendar);
-  calendarPage.build();
+  const htmlWriter = new HTMLWriter(calendarPage, 'calendar');
+  htmlWriter.build();
+  
   console.log(calendarPage.cells);
   return;
   const calendarBuilder = new CalendarBuilder(calendar, "calendar");
