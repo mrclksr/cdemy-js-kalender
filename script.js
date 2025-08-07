@@ -660,81 +660,102 @@ class HTMLWriter {
   }
 }
 
-const todayDate = new Date();
-const holidayCalculator = new GermanHolidayCalculator(
-  todayDate.getFullYear(),
-  Germany.StateIds.HESSE
-);
-const calendar = new Calendar(todayDate, holidayCalculator);
-const calendarPage = new CalendarPage(calendar);
-const htmlWriter = new HTMLWriter(calendarPage, "calendar");
+class Page {
+  constructor() {
+    this.todayDate = new Date();
+    this.holidayCalculator = new GermanHolidayCalculator(
+      this.todayDate.getFullYear(),
+      Germany.StateIds.HESSE
+    );
+    this.calendar = new Calendar(this.todayDate, this.holidayCalculator);
+    this.calendarPage = new CalendarPage(this.calendar);
+    this.htmlWriter = new HTMLWriter(this.calendarPage, "calendar");
+    this.onclickNext = this.onclickNext.bind(this);
+    this.onclickPrev = this.onclickPrev.bind(this);
 
-function choosePrevMonth() {
-  calendar.choosePrevMonth();
-  htmlWriter.build();
-  updateTexts();
-}
+    document.getElementById('prev_month_bt').addEventListener(
+      'click', 
+      (event) => this.onclickPrev(event)
+    );
+    document.getElementById('next_month_bt').addEventListener(
+      'click', 
+      (event) => this.onclickNext(event)
+    );
+  }
 
-function chooseNextMonth() {
-  calendar.chooseNextMonth();
-  htmlWriter.build();
-  updateTexts();
-}
+  show() {
+    this.htmlWriter.build();
+    this.updateTexts();
+  }
 
-function updateTexts() {
-  const weekDay = todayDate.toLocaleDateString("de-DE", { weekday: "long" });
-  const nthDayOfWeek = ((todayDate.getDay() + 6) % 7) + 1;
-  const numericDate = todayDate.toLocaleDateString("de-DE", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  });
-  const monthYearStr = calendar.getDateObject().toLocaleDateString("de-DE", {
-    month: "long",
-    year: "numeric",
-  });
-  const dayMonthStr = todayDate.toLocaleDateString("de-DE", {
-    day: "2-digit",
-    month: "long",
-  });
-  const leapYearStr =
-    " (der " +
-    (calendar.getDaysSinceStartOfYear(todayDate) + 1) +
-    ". Tag in Schaltjahren)";
+  onclickNext(e) {
+    console.log('hi');
+    this.calendar.chooseNextMonth();
+    this.htmlWriter.build();
+    this.updateTexts();
+  }
 
-  const replacements = [
-    { query: '[date="numeric-date"]', val: numericDate },
-    { query: '[date="day-month"]', val: dayMonthStr },
-    {
-      query: '[count="days-since"]',
-      val: calendar.getDaysSinceStartOfYear(todayDate),
-    },
-    {
-      query: '[count="days-remain"]',
-      val: calendar.getDaysTillEndOfYear(todayDate),
-    },
-    { query: '[date="day-of-week"]', val: weekDay },
-    { query: '[date="nth-day-of-week"]', val: nthDayOfWeek },
-    { query: '[date="calendar_head_month_year"]', val: monthYearStr },
-    {
-      query: '[date="is-holiday"]',
-      val: calendar.isHoliday(todayDate) ? "ein" : "kein",
-    },
-    {
-      query: '[date="days-with-leap-text"]',
-      val: !calendar.isLeapYear(todayDate) ? leapYearStr : "",
-    },
-  ];
-  for (r of replacements) {
-    for (const e of document.querySelectorAll(r.query)) {
-      e.innerHTML = r.val;
+  onclickPrev(e) {
+    this.calendar.choosePrevMonth();
+    this.htmlWriter.build();
+    this.updateTexts();
+  }
+
+  updateTexts() {
+    const weekDay = this.todayDate.toLocaleDateString("de-DE", { weekday: "long" });
+    const nthDayOfWeek = ((this.todayDate.getDay() + 6) % 7) + 1;
+    const numericDate = this.todayDate.toLocaleDateString("de-DE", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
+    const monthYearStr = this.calendar.getDateObject().toLocaleDateString("de-DE", {
+      month: "long",
+      year: "numeric",
+    });
+    const dayMonthStr = this.todayDate.toLocaleDateString("de-DE", {
+      day: "2-digit",
+      month: "long",
+    });
+    const leapYearStr =
+      " (der " +
+      (this.calendar.getDaysSinceStartOfYear(this.todayDate) + 1) +
+      ". Tag in Schaltjahren)";
+
+    const replacements = [
+      { query: '[date="numeric-date"]', val: numericDate },
+      { query: '[date="day-month"]', val: dayMonthStr },
+      {
+        query: '[count="days-since"]',
+        val: this.calendar.getDaysSinceStartOfYear(this.todayDate),
+      },
+      {
+        query: '[count="days-remain"]',
+        val: this.calendar.getDaysTillEndOfYear(this.todayDate),
+      },
+      { query: '[date="day-of-week"]', val: weekDay },
+      { query: '[date="nth-day-of-week"]', val: nthDayOfWeek },
+      { query: '[date="calendar_head_month_year"]', val: monthYearStr },
+      {
+        query: '[date="is-holiday"]',
+        val: this.calendar.isHoliday(this.todayDate) ? "ein" : "kein",
+      },
+      {
+        query: '[date="days-with-leap-text"]',
+        val: !this.calendar.isLeapYear(this.todayDate) ? leapYearStr : "",
+      },
+    ];
+    for (let r of replacements) {
+      for (const e of document.querySelectorAll(r.query)) {
+        e.innerHTML = r.val;
+      }
     }
   }
 }
 
 function init() {
-  htmlWriter.build();
-  updateTexts();
+  const page = new Page();
+  page.show();
 }
 
 if (typeof module !== "undefined" && module.exports) {
