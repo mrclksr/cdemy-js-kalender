@@ -79,6 +79,14 @@ table#calendar {
   background-color: var(--secondary-color);
 }
 
+#calendar td:nth-child(7) {
+  background-color: var(--secondary-color);
+}
+
+#calendar td:nth-child(6) {
+  background-color: var(--primary-color);
+}
+
 #calendar th,
 td {
   width: 2.5em;
@@ -110,6 +118,10 @@ td {
   background-color: var(--calendar-background-color-inactive);
   color: var(--calendar-color-inactive);
   pointer-events: none;
+}
+
+#calendar td.holiday {
+  color: red;
 }
 
 .center {

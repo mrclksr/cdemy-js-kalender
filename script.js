@@ -91,7 +91,7 @@ function createGermanyObject() {
       name: HolidayNames.CHRISTMAS_DAY,
     },
     { month: Months.DECEMBER, day: 26, name: HolidayNames.BOXING_DAY },
-    { month: Months.AUGUST, day: 6, name: 'Andres Geburtstag'},
+    { month: Months.AUGUST, day: 6, name: "Andres Geburtstag" },
     { easterOffset: 0, name: HolidayNames.EASTER_SUNDAY },
     { easterOffset: 1, name: HolidayNames.EASTER_MONDAY },
     { easterOffset: -2, name: HolidayNames.GOOD_FRIDAY },
@@ -451,6 +451,10 @@ class Calendar {
     return nextMonth.getDate();
   }
 
+  getDateObject() {
+    return new Date(this.getYear(), this.getMonth());
+  }
+
   getLeadingWeekDaysFromPrevMonth() {
     return (this.month.getFirstWeekDay() + 6) % 7;
   }
@@ -579,9 +583,13 @@ class CalendarPage {
   #addCell(day) {
     this.cells.push(this.#createCell(day));
   }
-  
+
   #createCell(day) {
-    const date = new Date(this.calendar.getYear(), this.calendar.getMonth(), day);
+    const date = new Date(
+      this.calendar.getYear(),
+      this.calendar.getMonth(),
+      day
+    );
     return {
       day: day,
       overlapping: false,
@@ -614,8 +622,7 @@ class HTMLWriter {
     const data = this.calculatePage.getCellData();
     body.innerHTML = "";
     for (let c of data) {
-      if (weekDay++ % 7 == 0)
-        row = this.#addRow(body);
+      if (weekDay++ % 7 == 0) row = this.#addRow(body);
       this.#addCell(row, c);
     }
   }
@@ -630,13 +637,12 @@ class HTMLWriter {
     const td = document.createElement("td");
     parent.appendChild(td);
     td.innerHTML = cellData.day;
-    if (cellData.isToday)
-      td.id = 'today';
-    if (cellData.isHoliday)
-      td.classList.add('holiday');
-    if (cellData.overlapping)
-      td.classList.add('other_month');
-    td.classList.add()
+    if (cellData.overlapping) td.classList.add("other_month");
+    else {
+      if (cellData.isToday) td.id = "today";
+      if (cellData.isHoliday) td.classList.add("holiday");
+    }
+    td.classList.add();
   }
 
   #getTableBody() {
@@ -654,40 +660,46 @@ class HTMLWriter {
   }
 }
 
-function init() {
-  const today = new Date();
-  const holidayCalculator = new GermanHolidayCalculator(
-    today.getFullYear(),
-    Germany.StateIds.HESSE
-  );
-  const calendar = new Calendar(new Date(2025, 7, 1), holidayCalculator);
-  const calendarPage = new CalendarPage(calendar);
-  const htmlWriter = new HTMLWriter(calendarPage, 'calendar');
-  htmlWriter.build();
-  
-  console.log(calendarPage.cells);
-  return;
-  const calendarBuilder = new CalendarBuilder(calendar, "calendar");
-  calendarBuilder.build();
+const todayDate = new Date();
+const holidayCalculator = new GermanHolidayCalculator(
+  todayDate.getFullYear(),
+  Germany.StateIds.HESSE
+);
+const calendar = new Calendar(todayDate, holidayCalculator);
+const calendarPage = new CalendarPage(calendar);
+const htmlWriter = new HTMLWriter(calendarPage, "calendar");
 
-  const weekDay = today.toLocaleDateString("de-DE", { weekday: "long" });
-  const nthDayOfWeek = ((today.getDay() + 6) % 7) + 1;
-  const numericDate = today.toLocaleDateString("de-DE", {
+function choosePrevMonth() {
+  calendar.choosePrevMonth();
+  htmlWriter.build();
+  updateTexts();
+}
+
+function chooseNextMonth() {
+  calendar.chooseNextMonth();
+  htmlWriter.build();
+  updateTexts();
+}
+
+function updateTexts() {
+  const weekDay = todayDate.toLocaleDateString("de-DE", { weekday: "long" });
+  const nthDayOfWeek = ((todayDate.getDay() + 6) % 7) + 1;
+  const numericDate = todayDate.toLocaleDateString("de-DE", {
     day: "2-digit",
     month: "2-digit",
     year: "numeric",
   });
-  const monthYearStr = today.toLocaleDateString("de-DE", {
+  const monthYearStr = calendar.getDateObject().toLocaleDateString("de-DE", {
     month: "long",
     year: "numeric",
   });
-  const dayMonthStr = today.toLocaleDateString("de-DE", {
+  const dayMonthStr = todayDate.toLocaleDateString("de-DE", {
     day: "2-digit",
     month: "long",
   });
   const leapYearStr =
     " (der " +
-    (calendar.getDaysSinceStartOfYear(today) + 1) +
+    (calendar.getDaysSinceStartOfYear(todayDate) + 1) +
     ". Tag in Schaltjahren)";
 
   const replacements = [
@@ -695,28 +707,34 @@ function init() {
     { query: '[date="day-month"]', val: dayMonthStr },
     {
       query: '[count="days-since"]',
-      val: calendar.getDaysSinceStartOfYear(today),
+      val: calendar.getDaysSinceStartOfYear(todayDate),
     },
     {
       query: '[count="days-remain"]',
-      val: calendar.getDaysTillEndOfYear(today),
+      val: calendar.getDaysTillEndOfYear(todayDate),
     },
     { query: '[date="day-of-week"]', val: weekDay },
     { query: '[date="nth-day-of-week"]', val: nthDayOfWeek },
+    { query: '[date="calendar_head_month_year"]', val: monthYearStr },
+    {
+      query: '[date="is-holiday"]',
+      val: calendar.isHoliday(todayDate) ? "ein" : "kein",
+    },
+    {
+      query: '[date="days-with-leap-text"]',
+      val: !calendar.isLeapYear(todayDate) ? leapYearStr : "",
+    },
   ];
-
   for (r of replacements) {
     for (const e of document.querySelectorAll(r.query)) {
       e.innerHTML = r.val;
     }
   }
+}
 
-  let e = document.getElementById("calendar_head_month_year");
-  if (e) e.innerHTML = monthYearStr;
-  e = document.getElementById("is-holiday");
-  if (e) e.innerHTML = calendar.isHoliday(today) ? "ein" : "kein";
-  e = document.getElementById("days-with-leap-text");
-  if (e) e.innerHTML = !calendar.isLeapYear(today) ? leapYearStr : "";
+function init() {
+  htmlWriter.build();
+  updateTexts();
 }
 
 if (typeof module !== "undefined" && module.exports) {
