@@ -241,7 +241,6 @@ class GermanHolidayCalculator {
         this.easterSunday = this.#calculateEasterSunday(this.year);
         this.holidays = [];
         this.#addHolidays();
-        console.log(this.holidays);
     }
 
     #addHolidays() {
@@ -671,7 +670,6 @@ class Page {
         this.htmlCalendar = new HTMLCalendar(this.calendarPage, "calendar");
         this.onclickNext = this.onclickNext.bind(this);
         this.onclickPrev = this.onclickPrev.bind(this);
-        console.log("Next: ", this.holidayCalculator.getNextHoliday());
         document
             .getElementById("prev_month_bt")
             .addEventListener("click", (event) => this.onclickPrev(event));
