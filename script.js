@@ -206,21 +206,9 @@ class GermanHolidayCalculator {
     this.#init();
   }
 
-  #init() {
-    this.easterSunday = this.calculateEasterSunday(this.year);
-    this.holidays = [];
-    this.addHolidays();
-    console.log(this.holidays);
-  }
-
-  addHolidays() {
-    this.addGeneralHolidays();
-    this.addStateHolidays();
-  }
-
   getHoliday(day) {
     let rec = this.holidays.find((holiday) =>
-      this.compareDays(holiday.date, day)
+      this.#compareDays(holiday.date, day)
     );
     return rec ? rec.holiday : "";
   }
@@ -230,28 +218,40 @@ class GermanHolidayCalculator {
   }
 
   isHoliday(day) {
-    return this.holidays.some((holiday) => this.compareDays(holiday.date, day));
+    return this.holidays.some((holiday) => this.#compareDays(holiday.date, day));
   }
 
-  addGeneralHolidays() {
-    for (const holiday of Germany.GeneralHolidays) this.addHoliday(holiday);
+  #init() {
+    this.easterSunday = this.#calculateEasterSunday(this.year);
+    this.holidays = [];
+    this.#addHolidays();
+    console.log(this.holidays);
   }
 
-  addStateHolidays() {
+  #addHolidays() {
+    this.#addGeneralHolidays();
+    this.#addStateHolidays();
+  }
+
+  #addGeneralHolidays() {
+    for (const holiday of Germany.GeneralHolidays) this.#addHoliday(holiday);
+  }
+
+  #addStateHolidays() {
     Germany.StateHolidays.forEach((entry) => {
       if (entry.states.includes(this.stateId)) {
-        for (const holiday of entry.holidays) this.addHoliday(holiday);
+        for (const holiday of entry.holidays) this.#addHoliday(holiday);
       }
     });
   }
 
-  addHoliday(holiday) {
-    const date = this.calculateDate(holiday);
+  #addHoliday(holiday) {
+    const date = this.#calculateDate(holiday);
     const rec = { date: date, holiday: holiday.name };
     this.holidays.push(rec);
   }
 
-  calculateDate(holiday) {
+  #calculateDate(holiday) {
     if (holiday.easterOffset !== undefined)
       return new Date(
         this.year,
@@ -259,11 +259,11 @@ class GermanHolidayCalculator {
         this.easterSunday.getDate() + holiday.easterOffset
       );
     if (holiday.name == Germany.HolidayNames.REPENTANCE_AND_PRAYER_DAY)
-      return this.calculateRepentanceAndPrayerDay();
+      return this.#calculateRepentanceAndPrayerDay();
     return new Date(this.year, holiday.month, holiday.day);
   }
 
-  compareDays(day1, day2) {
+  #compareDays(day1, day2) {
     return (
       day1.getDate() === day2.getDate() &&
       day1.getMonth() === day2.getMonth() &&
@@ -271,7 +271,7 @@ class GermanHolidayCalculator {
     );
   }
 
-  calculateRepentanceAndPrayerDay() {
+  #calculateRepentanceAndPrayerDay() {
     // The Day of Repentance and Prayer is the first Wednesday between Nov. 16 and Nov. 22
     let offset = 0;
     const wednesday = 2;
@@ -284,7 +284,7 @@ class GermanHolidayCalculator {
   }
 
   // Calculate Easter Sunday using the Spencer algorithm.
-  calculateEasterSunday(year) {
+  #calculateEasterSunday(year) {
     const a = year % 19;
     const b = Math.floor(year / 100);
     const c = year % 100;
