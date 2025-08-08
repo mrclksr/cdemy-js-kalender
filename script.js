@@ -217,8 +217,21 @@ class GermanHolidayCalculator {
     return this.stateId;
   }
 
+  getNextHoliday() {
+    const today = new Date();
+
+    for (let h of this.holidays) {
+      if (h.date - today >= 0) return h;
+    }
+    // Next year
+    const nextYearHC = new GermanHolidayCalculator(this.year + 1);
+    return nextYearHC.holidays[0];
+  }
+
   isHoliday(day) {
-    return this.holidays.some((holiday) => this.#compareDays(holiday.date, day));
+    return this.holidays.some((holiday) =>
+      this.#compareDays(holiday.date, day)
+    );
   }
 
   #init() {
@@ -620,7 +633,7 @@ class Page {
     this.htmlWriter = new HTMLWriter(this.calendarPage, "calendar");
     this.onclickNext = this.onclickNext.bind(this);
     this.onclickPrev = this.onclickPrev.bind(this);
-
+    console.log("Next: ", this.holidayCalculator.getNextHoliday());
     document
       .getElementById("prev_month_bt")
       .addEventListener("click", (event) => this.onclickPrev(event));
@@ -722,6 +735,18 @@ class Page {
         e.innerHTML = r.val;
       }
     }
+    const descr = document.getElementById("description");
+    if (!descr) return;
+
+    const nextHoliday = this.holidayCalculator.getNextHoliday();
+    const nextHolidayText = `Der nächste Feiertag ist <em>${
+      nextHoliday.holiday
+    }</em>, am ${nextHoliday.date.toLocaleDateString("de-DE", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    })}.`;
+    descr.innerHTML += " " + nextHolidayText;
   }
 }
 
