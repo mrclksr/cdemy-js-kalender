@@ -224,7 +224,7 @@ class GermanHolidayCalculator {
         const today = new Date();
 
         for (let h of this.holidays) {
-            if (h.date - today >= 0) return h;
+            if (h.date - today > 0) return h;
         }
         // Next year
         const nextYearHC = new GermanHolidayCalculator(this.year + 1);
