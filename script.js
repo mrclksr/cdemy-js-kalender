@@ -707,6 +707,11 @@ class Page {
         this.htmlWriter.build();
         this.updateTexts();
     }
+    #setTitle(text) {
+        const title = document.getElementById("title");
+        if (!title) return;
+        title.innerHTML = text;
+    }
 
     updateTexts() {
         const thisYearHolidayCalculator = new GermanHolidayCalculator(
@@ -768,6 +773,7 @@ class Page {
                 e.innerHTML = r.val;
             }
         }
+        this.#setTitle(`Kalenderblatt vom ${numericDate}`);
     }
 }
 
