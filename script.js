@@ -592,7 +592,7 @@ class CalendarPage {
     }
 }
 
-class HTMLWriter {
+class HTMLCalendar {
     constructor(calendarPage, tableID) {
         this.calendarPage = calendarPage;
         this.tableID = tableID;
@@ -667,7 +667,7 @@ class Page {
         );
         this.calendar = new Calendar(this.todayDate, this.holidayCalculator);
         this.calendarPage = new CalendarPage(this.calendar);
-        this.htmlWriter = new HTMLWriter(this.calendarPage, "calendar");
+        this.htmlCalendar = new HTMLCalendar(this.calendarPage, "calendar");
         this.onclickNext = this.onclickNext.bind(this);
         this.onclickPrev = this.onclickPrev.bind(this);
         console.log("Next: ", this.holidayCalculator.getNextHoliday());
@@ -681,19 +681,19 @@ class Page {
     }
 
     show() {
-        this.htmlWriter.build();
+        this.htmlCalendar.build();
         this.#updateTexts();
     }
 
     onclickNext(e) {
         this.calendar.chooseNextMonth();
-        this.htmlWriter.build();
+        this.htmlCalendar.build();
         this.#updateTexts();
     }
 
     onclickPrev(e) {
         this.calendar.choosePrevMonth();
-        this.htmlWriter.build();
+        this.htmlCalendar.build();
         this.#updateTexts();
     }
 
@@ -715,7 +715,7 @@ class Page {
         const rec = Germany.States.find((r) => r.name == event.target.value);
         if (rec === undefined) return;
         this.holidayCalculator.setStateId(rec.id);
-        this.htmlWriter.build();
+        this.htmlCalendar.build();
     }
 
     #setTitle(text) {
