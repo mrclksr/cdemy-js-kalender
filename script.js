@@ -184,7 +184,7 @@ function createGermanyObject() {
 class GermanHolidayCalculator {
     constructor(year, stateId) {
         this.germany = createGermanyObject();
-        if (year === undefined || !year) {
+        if (!year) {
             let date = new Date();
             year = date.getFullYear();
         }
@@ -322,7 +322,7 @@ class GermanHolidayCalculator {
 
 class Month {
     constructor(month) {
-        if (!month || month === undefined) month = new Date();
+        if (!month) month = new Date();
         this.month = month;
         this.#init();
     }
@@ -494,7 +494,7 @@ class Calendar {
     }
 
     #initMonth(month) {
-        if (!month || month === undefined) month = new Date();
+        if (!month) month = new Date();
         this.date = month;
         this.month = new Month(month);
     }
@@ -720,7 +720,7 @@ class Page {
 
     #changeState(event) {
         const rec = this.holidayCalculator.getStateList().find((r) => r.name == event.target.value);
-        if (rec === undefined) return;
+        if (!rec) return;
         this.holidayCalculator.setStateId(rec.id);
         this.htmlCalendar.build();
     }
