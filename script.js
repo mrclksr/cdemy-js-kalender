@@ -392,11 +392,13 @@ class Calendar {
 
     choosePrevMonth() {
         this.month.choosePrevMonth();
+        if (!this.holidayCalculator) return;
         this.holidayCalculator.setYear(this.month.getYear());
     }
 
     chooseNextMonth() {
         this.month.chooseNextMonth();
+        if (!this.holidayCalculator) return;
         this.holidayCalculator.setYear(this.month.getYear());
     }
 
@@ -481,11 +483,13 @@ class Calendar {
 
     setHolidayCalculator(holidayCalculator) {
         this.holidayCalculator = holidayCalculator;
+        if (!this.holidayCalculator) return;
         this.holidayCalculator.setYear(this.month.getYear());
     }
 
     setMonth(month) {
         this.#initMonth(month);
+        if (!this.holidayCalculator) return;
         this.holidayCalculator.setYear(this.month.getYear());
     }
 
