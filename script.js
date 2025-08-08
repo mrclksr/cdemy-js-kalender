@@ -515,6 +515,7 @@ class CalendarPage {
         this.#addLeadingWeekDays();
         this.#addDaysOfMonth();
         this.#addTrailingWeekDays();
+        this.#addPaddingCells();
     }
 
     getCellData() {
@@ -541,6 +542,15 @@ class CalendarPage {
             let nextMonthDay = i + 1;
             this.#addOverlappingCell(nextMonthDay);
         }
+    }
+
+    #addPaddingCells() {
+        if (!this.cells || this.cells.length <= 0 || this.cells.length >= 42) return;
+        let lastDay = this.cells[this.cells.length - 1].day;
+        if (lastDay >= this.calendar.getNextMonthDays())
+            lastDay = 0;
+        for (let i = 0; i < 7; i++)
+            this.#addOverlappingCell(++lastDay);
     }
 
     #addDaysOfMonth() {
@@ -707,7 +717,7 @@ class Page {
         this.holidayCalculator.setStateId(rec.id);
         this.htmlWriter.build();
     }
- 
+
     #setTitle(text) {
         const title = document.getElementById("title");
         if (!title) return;
