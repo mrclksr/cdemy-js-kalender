@@ -216,6 +216,10 @@ class GermanHolidayCalculator {
         return this.stateId;
     }
 
+    getStateList() {
+        return this.germany.States;
+    }
+
     getNextHoliday() {
         const today = new Date();
 
@@ -659,10 +663,9 @@ class HTMLCalendar {
 
 class Page {
     constructor() {
-        this.country = createGermanyObject();
         this.todayDate = new Date();
         this.holidayCalculator = new GermanHolidayCalculator(
-            this.todayDate.getFullYear(), this.country.StateIds.HESSE);
+            this.todayDate.getFullYear());
         this.calendar = new Calendar(this.todayDate, this.holidayCalculator);
         this.calendarPage = new CalendarPage(this.calendar);
         this.htmlCalendar = new HTMLCalendar(this.calendarPage, "calendar");
@@ -697,7 +700,7 @@ class Page {
 
     #createStateList() {
         let selectElement = document.getElementById("states");
-        for (let i of this.country.States) {
+        for (let i of this.holidayCalculator.getStateList()) {
             const opt = document.createElement("option");
             opt.textContent = i.name;
             opt.value = i.name;
@@ -710,7 +713,7 @@ class Page {
     }
 
     #changeState(event) {
-        const rec = this.country.States.find((r) => r.name == event.target.value);
+        const rec = this.holidayCalculator.getStateList().find((r) => r.name == event.target.value);
         if (rec === undefined) return;
         this.holidayCalculator.setStateId(rec.id);
         this.htmlCalendar.build();
@@ -796,7 +799,6 @@ if (typeof module !== "undefined" && module.exports) {
         GermanHolidayCalculator,
         Month,
         Calendar,
-        Germany,
         Months,
     };
 } else {
