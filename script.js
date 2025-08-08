@@ -60,7 +60,7 @@ function createGermanyObject() {
 
   const HolidayNames = {
     NEW_YEAR: "New Year's Day",
-    ABOR_DAY: "Labor Day",
+    LABOR_DAY: "Labor Day",
     GERMAN_UNITY_DAY: "German Unity Day",
     CHRISTMAS_DAY: "Christmas Day",
     BOXING_DAY: "Boxing Day",
@@ -189,8 +189,7 @@ class GermanHolidayCalculator {
       let date = new Date();
       year = date.getFullYear();
     }
-    if (!stateId)
-      stateId = Germany.StateIds.BAVARIA;
+    if (!stateId) stateId = Germany.StateIds.BAVARIA;
     this.stateId = stateId;
     this.year = year;
     this.#init();
@@ -226,6 +225,10 @@ class GermanHolidayCalculator {
     return rec ? rec.holiday : "";
   }
 
+  getStateId() {
+    return this.stateId;
+  }
+
   isHoliday(day) {
     return this.holidays.some((holiday) => this.compareDays(holiday.date, day));
   }
@@ -233,23 +236,11 @@ class GermanHolidayCalculator {
   addGeneralHolidays() {
     for (const holiday of Germany.GeneralHolidays) this.addHoliday(holiday);
   }
-  getHolidaysByStateId(stateId) {
-    return Germany.StateHolidays
-     .filter(item => item.states.includes(stateId))
-     .flatMap(item => item.holidays);
-  }
 
   addStateHolidays() {
-    console.log(this.getHolidaysByStateId(this.stateId));
-    this.holidays.push(this.getHolidaysByStateId(this.stateId));
-    console.log(this.holidays);
     Germany.StateHolidays.forEach((entry) => {
       if (entry.states.includes(this.stateId)) {
-        console.log('StateID --> ', this.stateId);
-        for (const holiday of entry.holidays) {
-          console.log(holiday);
-          this.addHoliday(holiday);
-        }
+        for (const holiday of entry.holidays) this.addHoliday(holiday);
       }
     });
   }
@@ -391,57 +382,6 @@ class Calendar {
   chooseNextMonth() {
     this.month.chooseNextMonth();
     this.holidayCalculator.setYear(this.month.getYear());
-  }
-
-  /*
-   *
-   * \begin{align*}
-   * &m = month - 1 \\
-   * &y = year \\
-   * &a = \left\lfloor (3 - (y\mod{(4)}) ) / 3\right\rfloor \\
-   * &b = \left\lfloor y / 4\right\rfloor \\
-   * &c = \left\lfloor(24 - (b\mod{(25)})) / 24\right\rfloor \\
-   * &d = \left\lfloor(99 - (b\mod{(100)})) /99\right\rfloor \\
-   * &l = a(cd + 1 - c) \\
-   * &e = \left\lfloor m / 7\right\rfloor \\
-   * &f = m\mod{(7)} \\
-   * &g = \left\lfloor f / 2\right\rfloor \\
-   * &h = f\mod{(2)} \\
-   * &j = g - \left\lfloor g / 2\right\rfloor \\
-   * &k = j - \left\lfloor j / 2\right\rfloor \\
-   * &i = 212e + 61g + 31h -2k(1 - e) + l + day \\
-   * \end{align*}
-   */
-  getDaysSinceStartOfYear2(day, month) {
-    let m = month - 1;
-    let y = this.month.getYear();
-    let a = Math.floor((3 - (y % 4)) / 3);
-    let b = Math.floor(y / 4);
-    let c = Math.floor((24 - (b % 25)) / 24);
-    let d = Math.floor((99 - (b % 100)) / 99);
-    let l = a * (c * d + 1 - c);
-    let e = Math.floor(m / 7);
-    let f = m % 7;
-    let g = Math.floor(f / 2);
-    let h = f % 2;
-    let j = g - Math.floor(g / 2);
-    let k = j - Math.floor(j / 2);
-    let i = 212 * e + 61 * g + 31 * h + (1 - e) * k * -2 + l + day;
-    console.log(i);
-    return i;
-  }
-
-  getDaysSinceStartOfYear3(day, month) {
-    let m = month - 1;
-    let e = Math.floor(m / 7);
-    let f = m % 7;
-    let g = f % 2;
-    let h = Math.floor(f / 2);
-    let days =
-      e * 212 + h * 61 + g * 31 + day.getDate() + (this.isLeapYear() ? 1 : 0);
-    if (h > 0) days -= 2;
-    console.log(days);
-    return days;
   }
 
   getYear() {
@@ -612,14 +552,6 @@ class CalendarPage {
       isHoliday: this.calendar.isHoliday(date),
     };
   }
-
-  #calculateNoOfCells() {
-    return (
-      this.calendar.getDaysInMonth() +
-      this.calendar.getLeadingWeekDaysFromPrevMonth() +
-      this.calendar.getTrailingWeekDaysFromNextMonth()
-    );
-  }
 }
 
 class HTMLWriter {
@@ -688,40 +620,35 @@ class Page {
     this.onclickNext = this.onclickNext.bind(this);
     this.onclickPrev = this.onclickPrev.bind(this);
 
-    document.getElementById('prev_month_bt').addEventListener(
-      'click', 
-      (event) => this.onclickPrev(event)
-    );
-    document.getElementById('next_month_bt').addEventListener(
-      'click', 
-      (event) => this.onclickNext(event)
-    );
+    document
+      .getElementById("prev_month_bt")
+      .addEventListener("click", (event) => this.onclickPrev(event));
+    document
+      .getElementById("next_month_bt")
+      .addEventListener("click", (event) => this.onclickNext(event));
     this.createStateList();
   }
 
   createStateList() {
-    let selectElement = document.getElementById('states');
+    let selectElement = document.getElementById("states");
     for (let i of Germany.States) {
-      const opt = document.createElement('option');
+      const opt = document.createElement("option");
       opt.textContent = i.name;
       opt.value = i.name;
       selectElement.appendChild(opt);
     }
-    selectElement.addEventListener(
-      'change', 
-      (event) => this.changeState(event)
+    selectElement.addEventListener("change", (event) =>
+      this.changeState(event)
     );
-    console.log(selectElement);
+    selectElement.selectedIndex = this.holidayCalculator.getStateId();
   }
 
   changeState(event) {
-    const id = Germany.States.find(r => r.name == event.target.value);
-    if (id !== undefined) {
-      this.holidayCalculator.setStateId(id);
-      this.htmlWriter.build();
-      console.log('New state:', event.target.value);
-    }
-    
+    const rec = Germany.States.find((r) => r.name == event.target.value);
+    if (rec === undefined) return;
+    this.holidayCalculator.setStateId(rec.id);
+    this.htmlWriter.build();
+    console.log("New state:", event.target.value);
   }
 
   show() {
@@ -742,17 +669,21 @@ class Page {
   }
 
   updateTexts() {
-    const weekDay = this.todayDate.toLocaleDateString("de-DE", { weekday: "long" });
+    const weekDay = this.todayDate.toLocaleDateString("de-DE", {
+      weekday: "long",
+    });
     const nthDayOfWeek = ((this.todayDate.getDay() + 6) % 7) + 1;
     const numericDate = this.todayDate.toLocaleDateString("de-DE", {
       day: "2-digit",
       month: "2-digit",
       year: "numeric",
     });
-    const monthYearStr = this.calendar.getDateObject().toLocaleDateString("de-DE", {
-      month: "long",
-      year: "numeric",
-    });
+    const monthYearStr = this.calendar
+      .getDateObject()
+      .toLocaleDateString("de-DE", {
+        month: "long",
+        year: "numeric",
+      });
     const dayMonthStr = this.todayDate.toLocaleDateString("de-DE", {
       day: "2-digit",
       month: "long",
