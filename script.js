@@ -231,6 +231,7 @@ class GermanHolidayCalculator {
   #addHolidays() {
     this.#addGeneralHolidays();
     this.#addStateHolidays();
+    this.holidays.sort((a, b) => a.date - b.date);
   }
 
   #addGeneralHolidays() {
