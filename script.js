@@ -663,6 +663,10 @@ class HTMLCalendar {
 class Page {
     constructor() {
         this.todayDate = new Date();
+        /*
+         * FIXME: Hacky solution for now. Country should be selectable from
+         * a menu.
+         */
         this.holidayCalculator = new GermanHolidayCalculator(
             this.todayDate.getFullYear());
         this.calendar = new Calendar(this.todayDate, this.holidayCalculator);
@@ -724,6 +728,9 @@ class Page {
     }
 
     #updateTexts() {
+        /*
+         * FIXME: Same piece of garbage. See above.
+         */
         const thisYearHolidayCalculator = new GermanHolidayCalculator(
             this.todayDate.getFullYear(),
             this.holidayCalculator.getStateId()
