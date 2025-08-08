@@ -609,7 +609,7 @@ class HTMLWriter {
   #getTableBody() {
     let root = document.getElementById(this.tableID);
     if (!root) {
-      alert("Fatal: Calendar with ID " + this.tableID + " not found");
+      alert(`Fatal: Calendar with ID ${this.tableID} not found`);
       return null;
     }
     let tbody = root.getElementsByTagName("tbody");
@@ -662,7 +662,6 @@ class Page {
     if (rec === undefined) return;
     this.holidayCalculator.setStateId(rec.id);
     this.htmlWriter.build();
-    console.log("New state:", event.target.value);
   }
 
   show() {
@@ -702,10 +701,18 @@ class Page {
       day: "2-digit",
       month: "long",
     });
-    const leapYearStr =
-      " (der " +
-      (this.calendar.getDaysSinceStartOfYear(this.todayDate) + 1) +
-      ". Tag in Schaltjahren)";
+    const leapYearStr = ` (der ${
+      this.calendar.getDaysSinceStartOfYear(this.todayDate) + 1
+    }. Tag in Schaltjahren)`;
+
+    const nextHoliday = this.holidayCalculator.getNextHoliday();
+    const nextHolidayText = `Der nächste Feiertag ist <em>${
+      nextHoliday.holiday
+    }</em>, am ${nextHoliday.date.toLocaleDateString("de-DE", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    })}`;
 
     const replacements = [
       { query: '[date="numeric-date"]', val: numericDate },
@@ -729,24 +736,16 @@ class Page {
         query: '[date="days-with-leap-text"]',
         val: !this.calendar.isLeapYear(this.todayDate) ? leapYearStr : "",
       },
+      {
+        query: '[date="next-holiday"]',
+        val: nextHolidayText,
+      },
     ];
     for (let r of replacements) {
       for (const e of document.querySelectorAll(r.query)) {
         e.innerHTML = r.val;
       }
     }
-    const descr = document.getElementById("description");
-    if (!descr) return;
-
-    const nextHoliday = this.holidayCalculator.getNextHoliday();
-    const nextHolidayText = `Der nächste Feiertag ist <em>${
-      nextHoliday.holiday
-    }</em>, am ${nextHoliday.date.toLocaleDateString("de-DE", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    })}.`;
-    descr.innerHTML += " " + nextHolidayText;
   }
 }
 
