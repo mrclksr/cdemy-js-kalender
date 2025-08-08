@@ -506,10 +506,12 @@ class CalendarPage {
   constructor(calendar) {
     this.calendar = calendar;
     this.cells = [];
+    this.header = "";
   }
 
   build() {
     this.cells = [];
+    this.#setHeader();
     this.#addLeadingWeekDays();
     this.#addDaysOfMonth();
     this.#addTrailingWeekDays();
@@ -517,6 +519,10 @@ class CalendarPage {
 
   getCellData() {
     return this.cells;
+  }
+
+  getHeader() {
+    return this.header;
   }
 
   #addLeadingWeekDays() {
@@ -567,21 +573,28 @@ class CalendarPage {
       holiday: this.calendar.getHolidayName(date),
     };
   }
+
+  #setHeader() {
+    this.header = this.calendar.getDateObject().toLocaleDateString("de-DE", {
+      month: "long",
+      year: "numeric",
+    });
+  }
 }
 
 class HTMLWriter {
   constructor(calendarPage, tableID) {
-    this.calculatePage = calendarPage;
+    this.calendarPage = calendarPage;
     this.tableID = tableID;
   }
 
   build() {
     let weekDay = 0;
     let row;
-
-    this.calculatePage.build();
+    this.calendarPage.build();
+    this.#setHeader();
     const body = this.#getTableBody();
-    const data = this.calculatePage.getCellData();
+    const data = this.calendarPage.getCellData();
     body.innerHTML = "";
     for (let c of data) {
       if (weekDay++ % 7 == 0) row = this.#addRow(body);
@@ -611,6 +624,11 @@ class HTMLWriter {
         td.appendChild(tt);
       }
     }
+  }
+
+  #setHeader() {
+    for (const e of document.querySelectorAll('[date="calendar_head_month_year"]'))
+      e.innerHTML = this.calendarPage.getHeader();
   }
 
   #getTableBody() {
@@ -734,7 +752,6 @@ class Page {
       },
       { query: '[date="day-of-week"]', val: weekDay },
       { query: '[date="nth-day-of-week"]', val: nthDayOfWeek },
-      { query: '[date="calendar_head_month_year"]', val: monthYearStr },
       {
         query: '[date="is-holiday"]',
         val: this.calendar.isHoliday(this.todayDate) ? "ein" : "kein",
