@@ -564,6 +564,7 @@ class CalendarPage {
       overlapping: false,
       isToday: this.calendar.isToday(date),
       isHoliday: this.calendar.isHoliday(date),
+      holiday: this.calendar.getHolidayName(date),
     };
   }
 }
@@ -596,14 +597,20 @@ class HTMLWriter {
 
   #addCell(parent, cellData) {
     const td = document.createElement("td");
+    const tt = document.createElement("div");
     parent.appendChild(td);
     td.innerHTML = cellData.day;
     if (cellData.overlapping) td.classList.add("other_month");
     else {
       if (cellData.isToday) td.id = "today";
-      if (cellData.isHoliday) td.classList.add("holiday");
+      if (cellData.isHoliday) {
+        td.classList.add("holiday");
+        td.classList.add("tooltip");
+        tt.classList.add("tooltip-text");
+        tt.innerHTML = cellData.holiday;
+        td.appendChild(tt);
+      }
     }
-    td.classList.add();
   }
 
   #getTableBody() {
