@@ -182,3 +182,8 @@ ul#events li {
 ul#events li:last-child {
   margin: 0 0 0 0;
 }
+
+#states {
+  background-color: var(--background-color);
+  color: white;
+}
