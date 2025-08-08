@@ -707,6 +707,7 @@ class Page {
   }
 
   updateTexts() {
+    const thisYearHolidayCalculator = new GermanHolidayCalculator(this.todayDate.getFullYear(), this.holidayCalculator.getStateId());
     const weekDay = this.todayDate.toLocaleDateString("de-DE", {
       weekday: "long",
     });
@@ -716,12 +717,6 @@ class Page {
       month: "2-digit",
       year: "numeric",
     });
-    const monthYearStr = this.calendar
-      .getDateObject()
-      .toLocaleDateString("de-DE", {
-        month: "long",
-        year: "numeric",
-      });
     const dayMonthStr = this.todayDate.toLocaleDateString("de-DE", {
       day: "2-digit",
       month: "long",
@@ -730,7 +725,7 @@ class Page {
       this.calendar.getDaysSinceStartOfYear(this.todayDate) + 1
     }. Tag in Schaltjahren)`;
 
-    const nextHoliday = this.holidayCalculator.getNextHoliday();
+    const nextHoliday = thisYearHolidayCalculator.getNextHoliday();
     const nextHolidayText = `Der nächste Feiertag ist <em>${
       nextHoliday.holiday
     }</em>, am ${nextHoliday.date.toLocaleDateString("de-DE", {
