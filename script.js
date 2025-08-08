@@ -667,10 +667,27 @@ class Page {
         document
             .getElementById("next_month_bt")
             .addEventListener("click", (event) => this.onclickNext(event));
-        this.createStateList();
+        this.#createStateList();
     }
 
-    createStateList() {
+    show() {
+        this.htmlWriter.build();
+        this.#updateTexts();
+    }
+
+    onclickNext(e) {
+        this.calendar.chooseNextMonth();
+        this.htmlWriter.build();
+        this.#updateTexts();
+    }
+
+    onclickPrev(e) {
+        this.calendar.choosePrevMonth();
+        this.htmlWriter.build();
+        this.#updateTexts();
+    }
+
+    #createStateList() {
         let selectElement = document.getElementById("states");
         for (let i of Germany.States) {
             const opt = document.createElement("option");
@@ -679,41 +696,25 @@ class Page {
             selectElement.appendChild(opt);
         }
         selectElement.addEventListener("change", (event) =>
-            this.changeState(event)
+            this.#changeState(event)
         );
         selectElement.selectedIndex = this.holidayCalculator.getStateId();
     }
 
-    changeState(event) {
+    #changeState(event) {
         const rec = Germany.States.find((r) => r.name == event.target.value);
         if (rec === undefined) return;
         this.holidayCalculator.setStateId(rec.id);
         this.htmlWriter.build();
     }
-
-    show() {
-        this.htmlWriter.build();
-        this.updateTexts();
-    }
-
-    onclickNext(e) {
-        this.calendar.chooseNextMonth();
-        this.htmlWriter.build();
-        this.updateTexts();
-    }
-
-    onclickPrev(e) {
-        this.calendar.choosePrevMonth();
-        this.htmlWriter.build();
-        this.updateTexts();
-    }
+ 
     #setTitle(text) {
         const title = document.getElementById("title");
         if (!title) return;
         title.innerHTML = text;
     }
 
-    updateTexts() {
+    #updateTexts() {
         const thisYearHolidayCalculator = new GermanHolidayCalculator(
             this.todayDate.getFullYear(),
             this.holidayCalculator.getStateId()
